@@ -4,11 +4,11 @@ Donate link: http://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
 Tested up to: 4.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-BASE Item ListDisplay BASE(https://thebase.in/) Item List by shortcode [BASE_ITEM]
+Display BASE(https://thebase.in/) Item List by shortcode [BASE_ITEM]
 
 == Description ==
 
@@ -52,8 +52,14 @@ Not yet.
 = 1.0.0 =
 * First release
 
+= 1.0.1 =
+* Fix readme.txt
+
 
 == Changelog ==
 
 = 1.0.0 =
 * 初版リリース
+
+= 1.0.1 =
+* readme.txt修正
