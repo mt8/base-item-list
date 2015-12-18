@@ -34,7 +34,7 @@ class Base_Item_List {
 				'q'          => '*',
 				'shop_id'    => '',
 				'count'      => 10,
-				'cache_time' => 60,
+				'cache'      => 60,
 				'name'       => 'base_item_list',
 			), $atts ) );
 
@@ -49,8 +49,8 @@ class Base_Item_List {
 		$json = get_transient( $name );
 		if ( ! $json ) {
 			$json = $this->request_api( compact( 'client_id', 'client_secret', 'q', 'shop_id' ) );
-			if ( $cache_time > 0 ) {
-				set_transient( $name, $json, $cache_time );
+			if ( $cache > 0 ) {
+				set_transient( $name, $json, $cache );
 			}
 		}
 		
