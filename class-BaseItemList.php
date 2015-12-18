@@ -46,11 +46,11 @@ class Base_Item_List {
 		}
 		
 		//call API if no cache
-		$json = get_transient( $cach_name );
+		$json = get_transient( $cache_name );
 		if ( ! $json ) {
 			$json = $this->request_api( compact( 'client_id', 'client_secret', 'q', 'shop_id' ) );
 			if ( $cache_time > 0 ) {
-				set_transient( $cach_name, $json, $cache_time );
+				set_transient( $cache_name, $json, $cache_time );
 			}
 		}
 		
