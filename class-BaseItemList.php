@@ -35,7 +35,7 @@ class Base_Item_List {
 				'shop_id'    => '',
 				'count'      => 10,
 				'cache_time' => 60,
-				'cache_name' => 'base_item_list',
+				'name'       => 'base_item_list',
 			), $atts ) );
 
 		$client_id = $this->admin->option( 'client_id' );
@@ -46,11 +46,11 @@ class Base_Item_List {
 		}
 		
 		//call API if no cache
-		$json = get_transient( $cache_name );
+		$json = get_transient( $name );
 		if ( ! $json ) {
 			$json = $this->request_api( compact( 'client_id', 'client_secret', 'q', 'shop_id' ) );
 			if ( $cache_time > 0 ) {
-				set_transient( $cache_name, $json, $cache_time );
+				set_transient( $name, $json, $cache_time );
 			}
 		}
 		
