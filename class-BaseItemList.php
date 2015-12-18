@@ -44,6 +44,9 @@ class Base_Item_List {
 		if ( '' === $shop_id ) {
 			$shop_id = $this->admin->option( 'shop_id' );
 		}
+		if ( 0 >= (int)$count || (int)$count > 50  ) {
+			$count = 10;
+		}
 		
 		//call API if no cache
 		$json = get_transient( $name );
@@ -55,7 +58,10 @@ class Base_Item_List {
 		}
 		
 		//print items
-		$this->print_item_list( array_slice( $json->items, 0, $count ) );
+		if ( count( $json->items ) < (int)$count ) {
+			$count = count( $json->items );
+		}
+		$this->print_item_list( array_slice( $json->items, 0, (int)$count ) );
 
 	}
 	
