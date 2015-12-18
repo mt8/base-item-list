@@ -1,0 +1,57 @@
+# Copyright (C) 2015 BASE Item List
+# This file is distributed under the same license as the BASE Item List package.
+msgid ""
+msgstr ""
+"Project-Id-Version: BASE Item List 1.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/base-item-list\n"
+"POT-Creation-Date: 2015-12-18 05:19:41+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-12-18 14:21+0900\n"
+"Last-Translator: mt8 <info@mt8.biz>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: class-BaseItemListAdmin.php:20
+msgid "settings"
+msgstr "設定"
+
+#: class-BaseItemListAdmin.php:21
+msgid "client_id"
+msgstr ""
+
+#: class-BaseItemListAdmin.php:22
+msgid "client_secret"
+msgstr ""
+
+#: class-BaseItemListAdmin.php:23
+msgid "shop_id"
+msgstr ""
+
+#. #-#-#-#-#  base-item-list.pot (BASE Item List 1.0.0)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: class-BaseItemListAdmin.php:58
+msgid "BASE Item List"
+msgstr "BASE商品リスト"
+
+#: class-BaseItemListAdmin.php:64
+msgid "Input API settings from BASE API application info."
+msgstr "BASE API設定をアプリ情報から入力して下さい。"
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/mt8/base-item-list"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Display BASE(https://thebase.in/) Item List by shortcode [BASE_ITEM]"
+msgstr ""
+"BASE(https://thebase.in/) の商品リストをショートコード[BASE_ITEM]で表示します"
+
+#. Author of the plugin/theme
+msgid "mt8.biz"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://mt8.biz"
+msgstr ""
