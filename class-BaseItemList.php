@@ -61,7 +61,7 @@ class Base_Item_List {
 		if ( count( $json->items ) < (int)$count ) {
 			$count = count( $json->items );
 		}
-		$this->print_item_list( array_slice( $json->items, 0, (int)$count ) );
+		return $this->item_list( array_slice( $json->items, 0, (int)$count ) );
 
 	}
 	
@@ -77,11 +77,12 @@ class Base_Item_List {
 		
 	}
 	
-	public function print_item_list( $items ) {
+	public function item_list( $items ) {
 		
 		//set globals
 		$GLOBALS[ 'base_items' ] = $items;
 		
+		 ob_start();
 		if ( is_file( get_stylesheet_directory() . '/base_items.php' ) ) {
 			//load base_items.php in your theme.
 			get_template_part( 'base_items' );
@@ -89,6 +90,7 @@ class Base_Item_List {
 			//load base_items.php in this plugin.
 			include plugin_dir_path( __FILE__ ) . '/base_items.php';
 		}
+		return ob_get_clean();
 		
 	}
 

@@ -4,7 +4,7 @@ Donate link: http://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
 Tested up to: 4.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,8 @@ Not yet.
 = 1.0.1 =
 * Fix readme.txt
 
+= 1.0.2 =
+* Fix bug
 
 == Changelog ==
 
@@ -63,3 +65,6 @@ Not yet.
 
 = 1.0.1 =
 * readme.txt修正
+
+= 1.0.2 =
+* バグ修正
