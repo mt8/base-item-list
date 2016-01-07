@@ -55,7 +55,7 @@ Not yet.
 = 1.0.1 =
 * Fix readme.txt
 
-= 1.0.1 =
+= 1.0.2 =
 * Fix bug
 
 == Changelog ==
