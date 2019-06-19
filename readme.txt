@@ -3,8 +3,8 @@ Contributors: mt8.biz
 Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
-Tested up to: 4.8
-Stable tag: 1.0.3
+Tested up to: 5.2
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,11 @@ Not yet.
 * Tested to: 4.8
 * Update Readme
 
+= 1.0.4 =
+* Tested to: 5.2
+* Fix bug
+* Update setting page
+
 == Changelog ==
 
 = 1.0.0 =
@@ -87,3 +92,8 @@ Not yet.
 = 1.0.3 =
 * 4.8でのテスト
 * shop_idについて記載
+
+= 1.0.4 =
+* 5.2でのテスト
+* バグ修正
+* 管理画面の説明を変更
