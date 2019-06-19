@@ -51,6 +51,27 @@ class Base_Item_List_Admin {
 	public function add_settings_field_shop_id() {
 	?>
 	<input type="text" id="app_url" name="<?php echo self::OPTIONS_KEY ?>[shop_id]" class="regular-text" value="<?php echo esc_attr( $this->option( 'shop_id' ) ) ?>" />
+	<br />
+	<h3>※ショップIDについて</h3>
+	<table class="widefat fixed" cellspacing="0">
+		<thead>
+			<tr>
+				<th>BASE初期ドメイン</th>
+				<th>ショップIDに設定する値</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>xxxxxx.thebase.inの場合</td>
+				<td>xxxxxx</td>
+			</tr>
+			<tr>
+				<td>xxxxxx.theshop.jpなど、<strong>thebase.in以外</strong>の場合</td>
+				<td>xxxxxx-theshop-jp（ドットをハイフン「-」で繋げる）</td>
+			</tr>
+		</tbody>
+	</table>
+
 	<?php
 	}
 
@@ -61,12 +82,62 @@ class Base_Item_List_Admin {
 	public function add_options_page() {
 	?>
 	<div class="wrap">
-		<h2><?php _e( 'Input API settings from BASE API application info.', self::TEXT_DOMAIN ) ?></h2>
+		<h2>BASE商品リスト 設定</h2>
 		<form method="POST" action="options.php">
 			<?php do_settings_sections( self::OPTIONS_KEY ); ?>
 			<?php settings_fields( self::OPTIONS_KEY . '_group' ); ?>			
 			<?php submit_button(); ?>
-		</form>		
+		</form>
+		<hr />
+		<h2>ショートコード</h2>
+		<code>[BASE_ITEM]</code>
+		<hr />
+		<h2>パラメータ一覧</h2>
+		<table class="widefat fixed" cellspacing="0">
+		<thead>
+			<tr>
+				<th>パラメータ名</th>
+				<th>機能</th>
+				<th>初期値</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>q</td>
+				<td>検索キーワード</td>
+				<td>なし</td>
+			</tr>
+			<tr>
+				<td>shop_id</td>
+				<td>別のショップの商品リストを表示する際に使用します</td>
+				<td>設定項目で入力した値</td>
+			</tr>
+			<tr>
+				<td>count</td>
+				<td>表示する商品数。最大で50件です。</td>
+				<td>10</td>
+			</tr>
+			<tr>
+				<td>cache</td>
+				<td>APIの結果をキャッシュする時間（秒）です。</td>
+				<td>60</td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>複数エリアに設置する場合に指定します。この名前をキーにキャッシュが作成されます。</td>
+				<td>base_item_list</td>
+			</tr>
+		</tbody>
+	</table>
+	<hr />
+	<h2>パラメータ例</h2>
+
+	<p>1.「Tシャツ」の検索結果を4件表示する</p>
+	<code>[BASE_ITEM q="Tシャツ" count="4"]</code>
+
+	<p>2.「Tシャツ」の検索結果をサイドバーに1件表示する</p>
+	<code>[BASE_ITEM q="Tシャツ" count="1" name="side"]</code>
+
 	</div>
 	<?php
 	}

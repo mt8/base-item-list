@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-12-18 14:21+0900\n"
+"PO-Revision-Date: 2017-07-19 14:50+0900\n"
 "Last-Translator: mt8 <info@mt8.biz>\n"
 "Language-Team: \n"
 "X-Generator: Poedit 1.5.7\n"
@@ -19,15 +19,15 @@ msgstr "設定"
 
 #: class-BaseItemListAdmin.php:21
 msgid "client_id"
-msgstr ""
+msgstr "client_id (検索API用)"
 
 #: class-BaseItemListAdmin.php:22
 msgid "client_secret"
-msgstr ""
+msgstr "client_secret (検索API用)"
 
 #: class-BaseItemListAdmin.php:23
 msgid "shop_id"
-msgstr ""
+msgstr "ショップID"
 
 #. #-#-#-#-#  base-item-list.pot (BASE Item List 1.0.0)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
