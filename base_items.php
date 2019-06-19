@@ -33,7 +33,7 @@
 				<dt><span class="base_item_title"><?php echo esc_html( $item->title ); ?></span></dt>
 				<dd>
 					<a href="<?php echo esc_url( $item->shop_url) ?>/items/<?php echo $item->item_id; ?>" target="_blank">
-						<img src="<?php echo esc_url( $item->img1_300 ); ?>" alt="<?php esc_attr( $item->title ); ?>">
+						<img src="<?php echo esc_url( $item->img1_300 ); ?>" alt="<?php echo esc_attr( $item->title ); ?>">
 					</a>
 				</dd>
 			</li>
