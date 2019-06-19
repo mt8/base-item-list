@@ -51,6 +51,11 @@ class Base_Item_List_Admin {
 	public function add_settings_field_shop_id() {
 	?>
 	<input type="text" id="app_url" name="<?php echo self::OPTIONS_KEY ?>[shop_id]" class="regular-text" value="<?php echo esc_attr( $this->option( 'shop_id' ) ) ?>" />
+	<br />
+	<h3>shop_idについて</h3>
+	<hr />
+    <p>ドメインがthebase.inの場合はサブドメインの部分。例）：<strong>mt8.thebase.in -> mt8</strong>
+    <p>ドメインがthebase.in以外の場合はドットをハイフンに変えたもの。例）：<strong>mt8.theshop.jp -> mt8-theshop-jp</strong></p>
 	<?php
 	}
 

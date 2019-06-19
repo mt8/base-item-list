@@ -47,12 +47,11 @@ class Base_Item_List {
 		if ( 0 >= (int)$count || (int)$count > 50  ) {
 			$count = 10;
 		}
-		$size = $count;
 		
 		//call API if no cache
 		$json = get_transient( md5( $name ) );
 		if ( ! $json ) {
-			$json = $this->request_api( compact( 'client_id', 'client_secret', 'q', 'shop_id', 'size' ) );
+			$json = $this->request_api( compact( 'client_id', 'client_secret', 'q', 'shop_id' ) );
 			if ( $cache > 0 ) {
 				set_transient( md5( $name ), $json, $cache );
 			}
