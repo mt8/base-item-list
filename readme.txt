@@ -1,5 +1,5 @@
 === BASE Item List ===
-Contributors: mt8.biz
+Contributors: mt8.biz, shimakyohsuke
 Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
