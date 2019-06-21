@@ -12,10 +12,13 @@ class Base_Item_List {
 
 	public function register_hooks() {
 
-		add_action( 'plugins_loaded', array( &$this, 'plugins_loaded' ) );
-		add_action( 'admin_init', array( &$this->admin, 'admin_init' ) );
-		add_action( 'admin_menu', array( &$this->admin, 'admin_menu' ) );
-		add_shortcode('BASE_ITEM', array( &$this, 'add_shortcode' ) );
+		add_action( 'plugins_loaded',     array( $this, 'plugins_loaded' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+
+		add_action( 'admin_init', array( $this->admin, 'admin_init' ) );
+		add_action( 'admin_menu', array( $this->admin, 'admin_menu' ) );
+
+		add_shortcode('BASE_ITEM', array( $this, 'add_shortcode' ) );
 	}
 
 	public function plugins_loaded() {
@@ -24,6 +27,12 @@ class Base_Item_List {
 			false,
 			dirname( plugin_basename( __FILE__ ) ).'/languages'
 		 );
+	}
+
+	public function wp_enqueue_scripts() {
+		if ( '1' == $this->admin->option( 'use_default_css' ) ) {
+			wp_enqueue_style( 'base-item-list', plugins_url( 'base-item-list.css', __FILE__ ) );
+		}
 	}
 	
 	public function add_shortcode( $atts ) {

@@ -18,9 +18,10 @@ class Base_Item_List_Admin {
 		$section = $key . '_section'; 
 		register_setting( $group, $key, array( &$this, 'register_setting' ) );
 		add_settings_section( $section, __( 'settings', self::TEXT_DOMAIN ), array( &$this, 'add_settings_section' ), $key );
-		add_settings_field( 'client_id'    , __( 'client_id', self::TEXT_DOMAIN ), array( &$this, 'add_settings_field_client_id' ), $key, $section );
-		add_settings_field( 'client_secret', __( 'client_secret', self::TEXT_DOMAIN ) , array( &$this, 'add_settings_field_client_secret' ), $key, $section );
-		add_settings_field( 'shop_id'      , __( 'shop_id', self::TEXT_DOMAIN ), array( &$this, 'add_settings_field_shop_id' ), $key, $section );
+		add_settings_field( 'client_id'       , __( 'client_id', self::TEXT_DOMAIN ), array( &$this, 'add_settings_field_client_id' ), $key, $section );
+		add_settings_field( 'client_secret'   , __( 'client_secret', self::TEXT_DOMAIN ) , array( &$this, 'add_settings_field_client_secret' ), $key, $section );
+		add_settings_field( 'shop_id'         , __( 'shop_id', self::TEXT_DOMAIN ), array( &$this, 'add_settings_field_shop_id' ), $key, $section );
+		add_settings_field( 'use_default_css' , 'プラグインCSSを使用する', array( &$this, 'add_settings_field_use_default_css' ), $key, $section );
 	}
 
 	public function add_settings_section() {
@@ -72,6 +73,12 @@ class Base_Item_List_Admin {
 		</tbody>
 	</table>
 
+	<?php
+	}
+
+	public function add_settings_field_use_default_css() {
+	?>
+	<input type="checkbox" id="use_default_css" name="<?php echo self::OPTIONS_KEY ?>[use_default_css]" value="1" <?php checked( $this->option( 'use_default_css' ), 1 ); ?>/>
 	<?php
 	}
 
