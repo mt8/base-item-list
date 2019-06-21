@@ -78,6 +78,9 @@ Not yet.
 * Fix bug
 * Update setting page
 
+= 1.1 =
+* add default css
+
 == Changelog ==
 
 = 1.0.0 =
@@ -97,3 +100,6 @@ Not yet.
 * 5.2でのテスト
 * バグ修正
 * 管理画面の説明を変更
+
+= 1.1 =
+* デフォルトCSS機能の実装
