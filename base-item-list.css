@@ -1,0 +1,30 @@
+.base_items_list {
+    display: flex;
+    width: auto;
+    max-width: 100%;
+    flex-flow: wrap;
+    margin: 0 auto;
+    padding: 0;
+    justify-content: space-between;
+  }
+  .base_items_list::after{
+    content: "";
+    display: block;
+    width: calc(100% / 3);
+  }
+  .base_item {
+    list-style: none;
+    flex-basis: calc(100% / 3);
+    margin-bottom: 2em;
+  }
+  .base_item dt {
+    margin: 0 0 .5em 0;
+  }
+  .base_item dd {
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+  }
+  .base_item_title {
+    font-size: 16px;
+  }
