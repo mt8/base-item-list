@@ -8,6 +8,8 @@
 	 *	detail string
 	 *	price int
 	 *	stock int
+	 *  visible int(0|1)
+	 *  list_order int
 	 *	**img(n) is 1 to 5**
 	 *	img(n)_origin string
 	 *	img(n)_76 string
@@ -17,7 +19,11 @@
 	 *	img(n)_640 string
 	 *	img(n)_sp_480 string
 	 *	img(n)_sp_640 string
-	 *	modified int
+	 *	modified timestamp
+	 *  variations
+	 *   variation_id int
+	 *   variation string
+	 *   variation_stock int
 	 *	shop_id string
 	 *  shop_name string
 	 *	shop_url string
