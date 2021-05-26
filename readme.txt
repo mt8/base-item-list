@@ -1,10 +1,10 @@
 === BASE Item List ===
-Contributors: mt8.biz
+Contributors: mt8.biz, shimakyohsuke
 Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
-Tested up to: 5.2
-Stable tag: 1.1
+Tested up to: 5.6
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,7 +78,7 @@ Not yet.
 * Fix bug
 * Update setting page
 
-= 1.1 =
+= 1.1.1 =
 * add default css
 
 == Changelog ==
@@ -101,5 +101,8 @@ Not yet.
 * バグ修正
 * 管理画面の説明を変更
 
-= 1.1 =
+= 1.1.1 =
 * デフォルトCSS機能の実装
+
+= 1.1.2 =
+* 5.6での動作確認
