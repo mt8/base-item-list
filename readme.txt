@@ -3,8 +3,8 @@ Contributors: mt8.biz, shimakyohsuke
 Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
-Tested up to: 5.6
-Stable tag: 1.1.2
+Tested up to: 5.7
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,7 @@ BASE商品情報をリスト表示するショートコード:[BASE_ITEM] を使
 * count: 表示件数(デフォルト:10[件])
 * cache: 結果キャッシュ時間(デフォルト:60[秒])
 * name: 結果キャッシュ名(デフォルト:base_item_list)※複数箇所にショートコードを設置する場合に使用
+* sort: 並び順。item_id、price、stock、order_count、modifiedのascまたはdesc (例: order_count desc,item_id asc) (デフォルト: BASEのおすすめ順)
 
 **※shop_idについて**
 
@@ -81,6 +82,14 @@ Not yet.
 = 1.1.1 =
 * add default css
 
+= 1.1.2 =
+* Tested to: 5.6
+
+= 1.1.3 =
+* Added sort parameter
+* Output error log when API call fails
+* Tested to: 5.7
+
 == Changelog ==
 
 = 1.0.0 =
@@ -106,3 +115,8 @@ Not yet.
 
 = 1.1.2 =
 * 5.6での動作確認
+
+= 1.1.3 =
+* sortパラメータ追加
+* API呼び出し失敗時にエラーログ出力する
+* 5.7での動作確認

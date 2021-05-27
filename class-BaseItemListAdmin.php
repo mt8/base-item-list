@@ -125,6 +125,11 @@ class Base_Item_List_Admin {
 				<td>10</td>
 			</tr>
 			<tr>
+				<td>sort</td>
+				<td>並び順。item_id、price、stock、order_count、modifiedのascまたはdesc (例: order_count desc,item_id asc) (デフォルト: BASEのおすすめ順)</td>
+				<td></td>
+			</tr>
+			<tr>
 				<td>cache</td>
 				<td>APIの結果をキャッシュする時間（秒）です。</td>
 				<td>60</td>

@@ -45,6 +45,7 @@ class Base_Item_List {
 				'count'      => 10,
 				'cache'      => 60,
 				'name'       => 'base_item_list',
+				'sort'       => '',
 			), $atts ) );
 
 		$client_id = $this->admin->option( 'client_id' );
@@ -61,7 +62,10 @@ class Base_Item_List {
 		//call API if no cache
 		$json = get_transient( md5( $name ) );
 		if ( ! $json ) {
-			$json = $this->request_api( compact( 'client_id', 'client_secret', 'q', 'shop_id', 'size' ) );
+			$json = $this->request_api( compact( 'client_id', 'client_secret', 'q', 'shop_id', 'size', 'sort' ) );
+			if ( is_null( $json ) ) {
+				return '';
+			}
 			if ( $cache > 0 ) {
 				set_transient( md5( $name ), $json, $cache );
 			}
@@ -78,9 +82,13 @@ class Base_Item_List {
 	public function request_api( $args ) {
 		
 		$endpoint = 'https://api.thebase.in/1/search';
-		$query = build_query( $args );
+		$query = build_query( apply_filters( 'base_item_list_api_args', $args ) );
 		$response = wp_remote_get( $endpoint . '?' . $query );
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			error_log( '==========BASE Item List API　Error==========' );
+			error_log( 'Request: ' .  $endpoint . '?' . $query );
+			error_log( 'Response Code: ' . wp_remote_retrieve_response_code( $response ) );
+			error_log( 'Response Message: ' . wp_remote_retrieve_response_message( $response ) );
 			return null;
 		}
 		return json_decode( wp_remote_retrieve_body( $response ) );
