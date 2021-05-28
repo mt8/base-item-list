@@ -91,8 +91,36 @@ class Base_Item_List {
 			error_log( 'Response Message: ' . wp_remote_retrieve_response_message( $response ) );
 			return null;
 		}
-		return json_decode( wp_remote_retrieve_body( $response ) );
-		
+		$json = json_decode( wp_remote_retrieve_body( $response ) );
+
+		if ( array_key_exists( 'sort' , $args ) ) {
+			$sorts =  explode( ',', $args['sort'] );
+			foreach ( $sorts as $sort ) {
+				$conditions = explode( ' ', $sort );
+				if ( 2 !== count( $conditions ) ) {
+					continue;
+				}
+				if ( 'list_order' !== $conditions[0] ) {
+					continue;
+				}
+				if ( ! in_array( $conditions[1], array( 'asc', 'desc' ) ) ) {
+					continue;
+				}
+				if ( 'asc' === $conditions[1] ) {
+					usort($json->items, function ($a, $b) {
+						if ($a->list_order == $b->list_order) return 0;
+						return ($a->list_order < $b->list_order) ? -1 : 1;
+					});
+				}
+				if ( 'desc' === $conditions[1] ) {
+					usort($json->items, function ($a, $b) {
+						if ($a->list_order == $b->list_order) return 0;
+						return ($a->list_order > $b->list_order) ? -1 : 1;
+					});
+				}
+			}
+		}
+		return $json;
 	}
 	
 	public function item_list( $items ) {
