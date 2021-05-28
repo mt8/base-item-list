@@ -4,7 +4,7 @@ Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
 Tested up to: 5.7
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,6 +90,9 @@ Not yet.
 * Output error log when API call fails
 * Tested to: 5.7
 
+= 1.1.4 =
+* Added list_order
+
 == Changelog ==
 
 = 1.0.0 =
@@ -120,3 +123,6 @@ Not yet.
 * sortパラメータ追加
 * API呼び出し失敗時にエラーログ出力する
 * 5.7での動作確認
+
+= 1.1.4 =
+* list_orderでのソート追加
