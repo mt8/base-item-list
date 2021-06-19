@@ -4,7 +4,7 @@ Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
 Tested up to: 5.7
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,9 @@ Not yet.
 = 1.1.5 =
 * CD/CI by GitHub Actions
 
+= 1.1.6 =
+* remove unuse files
+
 == Changelog ==
 
 = 1.0.0 =
@@ -132,3 +135,6 @@ Not yet.
 
 = 1.1.5 =
 * GitHub Actions でのCD/CI 対応
+
+= 1.1.6 =
+* 未使用ファイルを削除
