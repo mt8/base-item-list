@@ -4,7 +4,7 @@ Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
 Tested up to: 5.7
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,7 +40,7 @@ shop_idの設定ミスに対するお問い合わせが増えています。
 
 有効化しているテーマフォルダ内にこのファイルをコピーすることでオリジナルの表示をさせることができます。
 
-= 設定 = 
+= 設定 =
 
 管理画面 -> BASE商品リストより、BASE APIのアプリ情報を設定して下さい。
 
@@ -93,6 +93,9 @@ Not yet.
 = 1.1.4 =
 * Added list_order
 
+= 1.1.5 =
+* CD/CI by GitHub Actions
+
 == Changelog ==
 
 = 1.0.0 =
@@ -126,3 +129,6 @@ Not yet.
 
 = 1.1.4 =
 * list_orderでのソート追加
+
+= 1.1.5 =
+* GitHub Actions でのCD/CI 対応
