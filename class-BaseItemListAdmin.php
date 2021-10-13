@@ -126,7 +126,7 @@ class Base_Item_List_Admin {
 			</tr>
 			<tr>
 				<td>sort</td>
-				<td>並び順。item_id、price、stock、order_count、modifiedのascまたはdesc (例: order_count desc,item_id asc) (デフォルト: BASEのおすすめ順)</td>
+				<td>並び順。item_id、price、stock、order_count、modifiedのascまたはdesc (例: <code>sort="order_count desc"</code>、<code>sort="item_id asc"</code>、<code>sort="item_id asc, order_count desc"</code>) (デフォルト: BASEのおすすめ順)</td>
 				<td></td>
 			</tr>
 			<tr>
@@ -149,6 +149,9 @@ class Base_Item_List_Admin {
 
 	<p>2.「Tシャツ」の検索結果をサイドバーに1件表示する</p>
 	<code>[BASE_ITEM q="Tシャツ" count="1" name="side"]</code>
+
+	<p>3.「Tシャツ」の検索結果をitem_idの昇順で10件表示する</p>
+	<code>[BASE_ITEM q="Tシャツ" count="10" sort="item_id asc"]</code>
 
 	</div>
 	<?php

@@ -21,7 +21,8 @@ BASE商品情報をリスト表示するショートコード:[BASE_ITEM] を使
 * count: 表示件数(デフォルト:10[件])
 * cache: 結果キャッシュ時間(デフォルト:60[秒])
 * name: 結果キャッシュ名(デフォルト:base_item_list)※複数箇所にショートコードを設置する場合に使用
-* sort: 並び順。item_id、price、stock、order_count、modifiedのascまたはdesc (例: order_count desc,item_id asc) (デフォルト: BASEのおすすめ順)
+* sort: 並び順を指定 `item_id`、`price`、`stock`、`order_count`、`modified`の`asc`または`desc` (デフォルト: BASEのおすすめ順)
+    - (例: `sort="order_count desc"`、`sort="item_id asc"`、`sort="item_id asc, order_count desc"`)
 
 **※shop_idについて**
 
@@ -33,12 +34,25 @@ shop_idの設定ミスに対するお問い合わせが増えています。
 
 ドメインがthebase.in以外の場合はドットをハイフンに変えたもの
     例）mt8.theshop.jp -> mt8-theshop-jp
+	
+**※sortについて**
+
+```
+[BASE_ITEM  q="キーボード" count=32 name="keyboard" cache="60" sort="item_id asc"]
+```
+
+sortの値に`desc`または`asc`を指定し忘れると、`<ul></ul>`の子要素は空になり、何も表示されません。
+`[BASE_ITEM  q="キーボード" count=32 name="keyboard" cache="60" sort="item_id"]`が上手くいかない例です。
 
 = 出力テンプレート =
 
 デフォルトのテンプレートはプラグインディレクトリ内にある「base_items.php」です。
 
 有効化しているテーマフォルダ内にこのファイルをコピーすることでオリジナルの表示をさせることができます。
+
+ただし、有効化しているテーマをアップデートすると「base_items.php」が消えてしまうので、
+
+子テーマを作成し、`base_items.php` をコピー＆配置して編集するのがオススメです。
 
 = 設定 =
 
