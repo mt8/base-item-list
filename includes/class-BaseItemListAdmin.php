@@ -90,6 +90,11 @@ class Base_Item_List_Admin {
 	public function add_options_page() {
 	?>
 	<div class="wrap">
+
+		<div class="error">
+			<p>本プラグインで使用している BASE検索APIが<string><a href="https://docs.thebase.in/docs/api/search/" target="_blank">2022年2月21日で新規受付を終了することがアナウンスされています。</a></strong></p>
+		</div>
+
 		<h2>BASE商品リスト 設定</h2>
 		<form method="POST" action="options.php">
 			<?php do_settings_sections( self::OPTIONS_KEY ); ?>
