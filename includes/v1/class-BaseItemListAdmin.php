@@ -84,7 +84,8 @@ class Base_Item_List_Admin_V1 {
 	}
 
 	public function admin_menu() {
-		add_menu_page( 'base_item_list', __('BASE Item List', self::TEXT_DOMAIN) , 'manage_options', __FILE__, array( &$this, 'add_options_page' ), 'dashicons-cart' );
+		add_menu_page( 'BASE Item List', 'BASE Item List' , 'manage_options', 'base_item_list', array( $this, 'add_options_page' ), 'dashicons-cart' );
+		add_submenu_page( 'base_item_list', '検索API設定（廃止予定）', '検索API（廃止予定）', 'manage_options', 'settings_v1', array( $this, 'add_options_page' ) );		
 	}
 
 	public function add_options_page() {
