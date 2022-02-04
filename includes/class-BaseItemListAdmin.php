@@ -18,8 +18,8 @@ class Base_Item_List_Admin {
 		$section = $key . '_section'; 
 		register_setting( $group, $key, array( &$this, 'register_setting' ) );
 		add_settings_section( $section, __( 'settings', self::TEXT_DOMAIN ), array( &$this, 'add_settings_section' ), $key );
-		add_settings_field( 'client_id'       , __( 'client_id', self::TEXT_DOMAIN ), array( &$this, 'add_settings_field_client_id' ), $key, $section );
-		add_settings_field( 'client_secret'   , __( 'client_secret', self::TEXT_DOMAIN ) , array( &$this, 'add_settings_field_client_secret' ), $key, $section );
+		add_settings_field( 'client_id'       , __( 'client_id (検索API用)', self::TEXT_DOMAIN ), array( &$this, 'add_settings_field_client_id' ), $key, $section );
+		add_settings_field( 'client_secret'   , __( 'client_secret (検索API用)', self::TEXT_DOMAIN ) , array( &$this, 'add_settings_field_client_secret' ), $key, $section );
 		add_settings_field( 'shop_id'         , __( 'shop_id', self::TEXT_DOMAIN ), array( &$this, 'add_settings_field_shop_id' ), $key, $section );
 		add_settings_field( 'use_default_css' , 'プラグインCSSを使用する', array( &$this, 'add_settings_field_use_default_css' ), $key, $section );
 	}
@@ -72,6 +72,7 @@ class Base_Item_List_Admin {
 			</tr>
 		</tbody>
 	</table>
+	<p><a href="https://admin.thebase.in/shop_admin/shop_settings" target="_blank">BASE ショップ情報</a>の、「アプリ掲載」という項目に<strong>shop_id=xxxxxxxxxx</strong>という形式でも記載されているので確認してみてください。</p>
 
 	<?php
 	}
@@ -89,6 +90,11 @@ class Base_Item_List_Admin {
 	public function add_options_page() {
 	?>
 	<div class="wrap">
+
+		<div class="error">
+			<p>本プラグインで使用している BASE検索APIが<string><a href="https://docs.thebase.in/docs/api/search/" target="_blank">2022年2月21日で新規受付を終了することがアナウンスされています。</a></strong></p>
+		</div>
+
 		<h2>BASE商品リスト 設定</h2>
 		<form method="POST" action="options.php">
 			<?php do_settings_sections( self::OPTIONS_KEY ); ?>
