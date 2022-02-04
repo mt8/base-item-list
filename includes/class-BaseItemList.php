@@ -31,7 +31,7 @@ class Base_Item_List {
 
 	public function wp_enqueue_scripts() {
 		if ( '1' == $this->admin->option( 'use_default_css' ) ) {
-			wp_enqueue_style( 'base-item-list', plugins_url( 'base-item-list.css', __FILE__ ) );
+			wp_enqueue_style( 'base-item-list', plugins_url( '/assets/css/base-item-list.css', dirname(__FILE__) ) );
 		}
 	}
 	
@@ -134,10 +134,10 @@ class Base_Item_List {
 			get_template_part( 'base_items' );
 		} else {
 			//load base_items.php in this plugin.
-			include plugin_dir_path( __FILE__ ) . '/base_items.php';
+			include dirname(__DIR__) . '/template/base_items.php';
 		}
 		return ob_get_clean();
-		
+
 	}
 
 }
