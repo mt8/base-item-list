@@ -85,7 +85,7 @@ class Base_Item_List_V1 {
 		$query = build_query( apply_filters( 'base_item_list_api_args', $args ) );
 		$response = wp_remote_get( $endpoint . '?' . $query );
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			error_log( '==========BASE Item List API　Error==========' );
+			error_log( '==========BASE Item List API Error==========' );
 			error_log( 'Request: ' .  $endpoint . '?' . $query );
 			error_log( 'Response Code: ' . wp_remote_retrieve_response_code( $response ) );
 			error_log( 'Response Message: ' . wp_remote_retrieve_response_message( $response ) );
