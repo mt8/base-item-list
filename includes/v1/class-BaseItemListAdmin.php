@@ -1,6 +1,6 @@
 <?php
 
-class Base_Item_List_Admin {
+class Base_Item_List_Admin_V1 {
 	
 	const TEXT_DOMAIN = 'base-item-list';
 	const OPTIONS_KEY = 'base-item-list';

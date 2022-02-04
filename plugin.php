@@ -11,8 +11,8 @@
 */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-require_once __DIR__ . '/includes/class-BaseItemList.php';
-require_once __DIR__ . '/includes/class-BaseItemListAdmin.php';
+require_once __DIR__ . '/includes/v1/class-BaseItemList.php';
+require_once __DIR__ . '/includes/v1/class-BaseItemListAdmin.php';
 
-$bil = new Base_Item_List();
-$bil->register_hooks();
+$bilo = new Base_Item_List_V1();
+$bilo->register_hooks();

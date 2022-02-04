@@ -1,12 +1,12 @@
 <?php
 
-class Base_Item_List {
+class Base_Item_List_V1 {
 		
 	private $admin;
 
 	public function __construct() {
 
-		$this->admin = New Base_Item_List_Admin();
+		$this->admin = New Base_Item_List_Admin_V1();
 		
 	}
 
@@ -23,7 +23,7 @@ class Base_Item_List {
 
 	public function plugins_loaded() {
 		load_plugin_textdomain(
-			Base_Item_List_Admin::TEXT_DOMAIN,
+			Base_Item_List_Admin_V1::TEXT_DOMAIN,
 			false,
 			dirname( plugin_basename( __FILE__ ) ).'/languages'
 		 );
@@ -31,7 +31,7 @@ class Base_Item_List {
 
 	public function wp_enqueue_scripts() {
 		if ( '1' == $this->admin->option( 'use_default_css' ) ) {
-			wp_enqueue_style( 'base-item-list', plugins_url( '/assets/css/base-item-list.css', dirname(__FILE__) ) );
+			wp_enqueue_style( 'base-item-list', plugins_url( '/assets/css/base-item-list.css', dirname( dirname(__FILE__) ) ) );
 		}
 	}
 	
@@ -134,7 +134,7 @@ class Base_Item_List {
 			get_template_part( 'base_items' );
 		} else {
 			//load base_items.php in this plugin.
-			include dirname(__DIR__) . '/template/base_items.php';
+			include dirname( dirname(__DIR__) ) . '/template/base_items.php';
 		}
 		return ob_get_clean();
 
