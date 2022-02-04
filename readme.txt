@@ -4,7 +4,7 @@ Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
 Tested up to: 5.7
-Stable tag: 1.1.7
+Stable tag: 1.1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,9 @@ Not yet.
 = 1.1.7 =
 * remove unuse files again
 
+= 1.1.8 =
+* Code refactor. Added announcement of the end of search API acceptance to the admin screen
+
 == Changelog ==
 
 = 1.0.0 =
@@ -144,3 +147,6 @@ Not yet.
 
 = 1.1.7 =
 * 未使用ファイルを削除
+
+= 1.1.8 =
+* コード整理・管理画面に検索API受付終了のアナウンス追加
