@@ -25,6 +25,13 @@ class Base_Item_List_Admin_V2 {
 	}
 
 	public function add_settings_section() {
+		if ( 'true' === filter_input( INPUT_GET, 'settings-updated' ) ) {
+			?>
+			<div class="updated">
+				<p>設定を保存しました。</p>
+			</div>
+			<?php
+		}
 	}	
 
 	public function register_setting( $input ) {
@@ -171,9 +178,18 @@ class Base_Item_List_Admin_V2 {
 	}
 
 	public function saved_options() {
-		return ( 
-			is_array( get_option( self::OPTIONS_KEY, $this->options_default ) ) &&
-			! empty( get_option( self::OPTIONS_KEY, $this->options_default ) )
-		);
+		$options = get_option( self::OPTIONS_KEY, $this->options_default );
+		if ( ! is_array( $options ) || empty( $options ) ) {
+			return false;
+		}
+		foreach ( array_keys( $this->options_default ) as $key ) {
+			if ( ! array_key_exists( $key, $options ) ) {
+				return false;
+			}
+			if ( empty( $options[ $key ] ) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

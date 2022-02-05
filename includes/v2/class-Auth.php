@@ -39,7 +39,7 @@ class Base_Item_List_Auth {
 		// アクセストークン種取得
 		$this->get_access_token( $code );
 
-		wp_safe_redirect( home_url( '/wp-admin/admin.php?page=base_item_list_v2' ), 301 );
+		wp_safe_redirect( admin_url( '/admin.php?page=base_item_list_v2' ), 301 );
 		exit;
 	}
 	
