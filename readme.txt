@@ -4,7 +4,7 @@ Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 4.4
 Tested up to: 5.9
-Stable tag: 1.1.8
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,9 @@ Not yet.
 = 1.1.8 =
 * code refactor
 
+= 1.2 =
+* Release BETA for new API
+
 == Changelog ==
 
 = 1.0.0 =
@@ -150,3 +153,6 @@ Not yet.
 
 = 1.1.8 =
 * コード整理
+
+= 1.2 =
+* API認証のベータ機能公開
