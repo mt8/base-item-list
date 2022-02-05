@@ -134,7 +134,7 @@ class Base_Item_List_V1 {
 			get_template_part( 'base_items' );
 		} else {
 			//load base_items.php in this plugin.
-			include dirname( dirname(__DIR__) ) . '/template/base_items.php';
+			include dirname( dirname(__DIR__) ) . '/template/v1/base_items.php';
 		}
 		return ob_get_clean();
 

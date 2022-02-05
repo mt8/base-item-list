@@ -85,7 +85,7 @@ class Base_Item_List_Admin_V1 {
 
 	public function admin_menu() {
 		add_menu_page( 'BASE Item List', 'BASE Item List' , 'manage_options', 'base_item_list', array( $this, 'add_options_page' ), 'dashicons-cart' );
-		add_submenu_page( 'base_item_list', '検索API設定（廃止予定）', '検索API設定（廃止予定）', 'manage_options', 'settings_v1', array( $this, 'add_options_page' ) );		
+		add_submenu_page( 'base_item_list', '検索API設定（廃止予定）', '検索API設定（廃止予定）', 'manage_options', 'base_item_list_v1', array( $this, 'add_options_page' ) );		
 	}
 
 	public function add_options_page() {
@@ -94,7 +94,7 @@ class Base_Item_List_Admin_V1 {
 
 		<div class="error">
 			<p>本プラグインで使用している BASE検索APIが<string><a href="https://docs.thebase.in/docs/api/search/" target="_blank">2022年2月21日で新規受付を終了することがアナウンスされています。</a></strong></p>
-			<p>Ver.2への移行を検討してください。</p>
+			<p>バージョン2を現在開発中です。</p>
 		</div>
 
 		<h2>BASE商品リスト 検索API設定（廃止予定）</h2>
