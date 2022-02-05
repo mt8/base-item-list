@@ -50,12 +50,12 @@ class Base_Item_List_Auth {
 		$callback_url = $admin->option( 'callback_url' );
 
 		$auth_url = add_query_arg(
-			[
+			array(
 				'response_type' => 'code',
 				'client_id'     => $client_id,
 				'redirect_uri'  => $callback_url,
 				'scope'         => 'read_items',
-			],
+			),
 			self::BASE_API_AUTH_URL
 		);
 		header( "Location:{$auth_url}" );
