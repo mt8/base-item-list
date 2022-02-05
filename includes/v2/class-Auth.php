@@ -9,7 +9,10 @@ class Base_Item_List_Auth {
 	const REFRESH_TOKEN_OPTION_KEY = 'base-item-list-refresh-token';
 
 	public function init() {
-		add_rewrite_endpoint( 'bil', EP_ROOT );		
+		add_rewrite_endpoint( 'bil', EP_ROOT );
+		if ( PHP_SESSION_ACTIVE !== session_status() ) {
+			session_start();
+		}
 	}
 
 	public function template_redirect() {
@@ -42,8 +45,16 @@ class Base_Item_List_Auth {
 	
 	public function get_auth_code() {
 		if ( ! empty( filter_input( INPUT_GET, 'code' ) ) ) {
+			if ( $_SESSION['oauth_state'] !== filter_input( INPUT_GET, 'state' ) ) {
+				wp_die( 'Bad Request' );
+				exit;
+			}
+			unset( $_SESSION['oauth_state'] );
 			return filter_input( INPUT_GET, 'code' );
 		}
+
+		$state = base64_encode( wp_generate_password( 12, true ,true ) );
+		$_SESSION['oauth_state'] = $state;
 
 		$admin = new Base_Item_List_Admin_V2();
 		$client_id = $admin->option( 'client_id' );
@@ -55,6 +66,7 @@ class Base_Item_List_Auth {
 				'client_id'     => $client_id,
 				'redirect_uri'  => $callback_url,
 				'scope'         => 'read_items',
+				'state'         => $state,
 			),
 			self::BASE_API_AUTH_URL
 		);
