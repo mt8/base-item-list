@@ -1,14 +1,16 @@
 <?php
 
-class Base_Item_List_V2 {
+namespace mt8\BaseItemList;
+
+class Core {
 		
 	const BASE_API_ITEMS_URL = 'https://api.thebase.in/1/items/search';
 	const LAST_ERROR_OPTION_KEY = 'base-item-list-last-error';
 
 	public function register_hooks() {
 
-		$admin = New Base_Item_List_Admin_V2();
-		$auth = new Base_Item_List_Auth();
+		$admin = New Admin();
+		$auth = new Auth();
 
 		add_action( 'admin_init', array( $admin, 'admin_init' ) );
 		add_action( 'admin_menu', array( $admin, 'admin_menu' ) );
@@ -55,7 +57,7 @@ class Base_Item_List_V2 {
 	
 	public function request_api( $args ) {
 
-		$auth = new Base_Item_List_Auth();
+		$auth = new Auth();
 
 		$token = $auth->get_access_token();
 		if ( empty( $token ) ) {

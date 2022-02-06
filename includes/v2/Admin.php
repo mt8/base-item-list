@@ -1,6 +1,8 @@
 <?php
 
-class Base_Item_List_Admin_V2 {
+namespace mt8\BaseItemList;
+
+class Admin {
 
 	const TEXT_DOMAIN = 'base-item-list';
 	const OPTIONS_KEY = 'base-item-list-v2';
@@ -102,8 +104,8 @@ class Base_Item_List_Admin_V2 {
 				</thead>
 				<tbody>
 					<tr>
-						<td><?php echo esc_html( get_transient( Base_Item_List_Auth::ACCESS_TOKEN_TRANSIENT_KEY ) ); ?></td>
-						<td><?php echo esc_html( get_option( Base_Item_List_Auth::REFRESH_TOKEN_OPTION_KEY ) ); ?></td>
+						<td><?php echo esc_html( get_transient( Auth::ACCESS_TOKEN_TRANSIENT_KEY ) ); ?></td>
+						<td><?php echo esc_html( get_option( Auth::REFRESH_TOKEN_OPTION_KEY ) ); ?></td>
 					</tr>
 				</tbody>
 				</table>
@@ -166,7 +168,7 @@ class Base_Item_List_Admin_V2 {
 		<code>[BASE_ITEM_V2 q="Tシャツ" count="1" name="side"]</code>
 		<hr />
 
-		<?php $last_error = get_option( Base_Item_List_V2::LAST_ERROR_OPTION_KEY ); if ( ! empty( $last_error ) ) : ?>
+		<?php $last_error = get_option( Core::LAST_ERROR_OPTION_KEY ); if ( ! empty( $last_error ) ) : ?>
 		<h2>エラーログ</h2>
 		<code><?php echo esc_html( $last_error ) ?></code>
 		<?php endif ; ?>

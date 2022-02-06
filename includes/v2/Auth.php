@@ -1,6 +1,8 @@
 <?php
 
-class Base_Item_List_Auth {
+namespace mt8\BaseItemList;
+
+class Auth {
 
 	const BASE_API_AUTH_URL = 'https://api.thebase.in/1/oauth/authorize';
 	const BASE_API_TOKEN_URL = 'https://api.thebase.in/1/oauth/token';
@@ -56,7 +58,7 @@ class Base_Item_List_Auth {
 		$state = base64_encode( wp_generate_password( 12, true ,true ) );
 		$_SESSION['oauth_state'] = $state;
 
-		$admin = new Base_Item_List_Admin_V2();
+		$admin = new Admin();
 		$client_id = $admin->option( 'client_id' );
 		$callback_url = $admin->option( 'callback_url' );
 
@@ -65,7 +67,7 @@ class Base_Item_List_Auth {
 				'response_type' => 'code',
 				'client_id'     => $client_id,
 				'redirect_uri'  => $callback_url,
-				'scope'         => 'read_users',
+				'scope'         => 'read_items',
 				'state'         => $state,
 			),
 			self::BASE_API_AUTH_URL
@@ -81,7 +83,7 @@ class Base_Item_List_Auth {
 			return $token;
 		}
 
-		$admin = new Base_Item_List_Admin_V2();
+		$admin = new Admin();
 		$client_id = $admin->option( 'client_id' );
 		$client_secret = $admin->option( 'client_secret' );
 		$callback_url = $admin->option( 'callback_url' );
