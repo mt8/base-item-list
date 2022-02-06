@@ -7,6 +7,61 @@ use mt8\BaseItemList\Auth;
 
 class View {
 
+	public static function register_setting_fields() {
+
+		$key     = Admin::OPTIONS_KEY;
+		$group   = $key . '_group';
+		$section = $key . '_section'; 
+		register_setting( $group, $key, array( View::class, 'filter_setting' ) );
+
+		add_settings_section(
+			$section,
+			'settings',
+			array( View::class, 'settings_section' ), $key
+		);
+
+		add_settings_field(
+			'client_id'
+			,'client_id',
+			array( View::class, 'field_client_id' ), 
+			$key,
+			$section
+		);
+
+		add_settings_field(
+			'client_secret'
+			,'client_secret',
+			array( View::class, 'field_client_secret' ), 
+			$key,
+			$section
+		);
+
+		add_settings_field(
+			'callback_url'
+			,'コールバックURL',
+			array( View::class, 'field_callback_url' ), 
+			$key,
+			$section
+		);
+
+		add_settings_field(
+			'use_default_css'
+			,'プラグインCSSを使用する',
+			array( View::class, 'field_use_default_css' ), 
+			$key,
+			$section
+		);
+	}
+
+	public static function filter_setting( $input ) {
+		foreach ( array_keys( Admin::OPTIONS_DEFUALT ) as $option_key ) {
+			if ( ! isset( $input[ $option_key ] ) || empty( trim( $input[ $option_key ] ) ) ) {
+				$input[ $option_key ] = '';
+			}
+		}
+		return $input;
+	}	
+
 	public static function option_page() {
 		$admin = new Admin();
 	?>

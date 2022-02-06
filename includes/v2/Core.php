@@ -3,6 +3,7 @@
 namespace mt8\BaseItemList;
 
 use mt8\BaseItemList\Admin\Admin;
+use mt8\BaseItemList\Admin\View;
 
 class Core {
 		
@@ -14,8 +15,8 @@ class Core {
 		$admin = New Admin();
 		$auth = new Auth();
 
-		add_action( 'admin_init', array( $admin, 'admin_init' ) );
 		add_action( 'admin_menu', array( $admin, 'admin_menu' ) );
+		add_action( 'admin_init', array( View::class, 'register_setting_fields' ) );
 		
 		add_action( 'init', array( $auth, 'init' ) );
 		add_action( 'template_redirect', array( $auth, 'template_redirect' ) );

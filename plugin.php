@@ -11,6 +11,18 @@
 */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+add_action( 'admin_menu', function() {
+	$v1_admin = new Base_Item_List_Admin_V1();
+	add_menu_page(
+		'BASE Item List',
+		'BASE Item List' ,
+		'manage_options',
+		'base_item_list',
+		array( $v1_admin, 'add_options_page' ),
+		'dashicons-cart'
+	);
+});
+
 // v1
 require_once __DIR__ . '/includes/v1/class-BaseItemList.php';
 require_once __DIR__ . '/includes/v1/class-BaseItemListAdmin.php';
