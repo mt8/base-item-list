@@ -102,6 +102,29 @@ class View {
 		<hr />
 		<?php endif; ?>
 
+		<h2>設定ヘルプ</h2>
+
+		<ul>
+			<li>1.<a target="_blank" href="https://developers.thebase.in/">BASE Developers</a>にアカウント登録し、ログインします。</li>
+			<li>2.<a target="_blank" href="https://developers.thebase.in/apps">アプリケーション</a>ページから、<a target="_blank" href="https://developers.thebase.in/apply">新規作成</a>を開きます。</li>
+			<li>3.画像のように入力し、「申請する」をクリックします。</li>
+			<ul>
+				<li>　3-1.アプリ名:WordPress等入力します。</li>
+				<li>　3-2.アプリの説明:当プラグインを使用する旨を入力します。</li>
+				<li>　3-3.アプリURL:あなたのWordPress URLを入力します。</li>
+				<li>　3-4.コールバックURL:このページにあるコールバックURLをコピー＆ペーストします</li>
+				<li>　3-5.利用制限:<strong>「商品情報を見る」を必ずチェック</strong>してください。</li>
+			</ul>
+			<li>4.申請後、しばらくするとBASEより承認のメールが届きます。</li>
+			<li>5.アプリ情報に記載されている「client_id」・「client_secret」をこのページに入力・保存し、「認証する」をクリックして認証します。</li>
+			<li>6.ショートコードが使用可能になります。</li>
+		</ul>
+
+		<p>
+		<img width="70%" src="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( dirname( __FILE__ ) ) ) )  ?>">
+		</p>
+
+
 		<h2>ショートコード</h2>
 		<code>[BASE_ITEM_V2]</code>
 		<hr />
