@@ -17,7 +17,7 @@ class Base_Item_List_Auth {
 
 	public function template_redirect() {
 		if ( 'auth' === get_query_var( 'bil' ) ) {
-			if ( true || current_user_can( 'administrator' ) ) {
+			if ( current_user_can( 'administrator' ) ) {
 				$this->authorize();
 			} else {
 				wp_safe_redirect( home_url( '/' ), 301 );
