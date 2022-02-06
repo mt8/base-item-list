@@ -3,6 +3,7 @@
 class Base_Item_List_V2 {
 		
 	const BASE_API_ITEMS_URL = 'https://api.thebase.in/1/items/search';
+	const LAST_ERROR_OPTION_KEY = 'base-item-list-last-error';
 
 	public function register_hooks() {
 
@@ -56,9 +57,17 @@ class Base_Item_List_V2 {
 
 		$auth = new Base_Item_List_Auth();
 
+		$token = $auth->get_access_token();
+		if ( empty( $token ) ) {
+			error_log( '==========BASE Item List API Error==========' );
+			error_log( 'アクセストークンが取得できません。認証してください。' );
+			update_option( self::LAST_ERROR_OPTION_KEY, 'アクセストークンが取得できません。認証してください。', false );
+			return null;
+		}
+
 		$args = array(
 			'headers'     => array(
-				'Authorization' => 'Bearer ' . $auth->get_access_token( '' ),
+				'Authorization' => 'Bearer ' . $token,
 			),
 			'body' => array(
 				'q'     => $args['q'],
@@ -72,8 +81,13 @@ class Base_Item_List_V2 {
 
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 			error_log( '==========BASE Item List API Error==========' );
-			error_log( 'Response Code: ' . wp_remote_retrieve_response_code( $response ) );
+			error_log( 'Request Params:   ' . var_export( $args, true ) );
+			error_log( 'Response Code:    ' . wp_remote_retrieve_response_code( $response ) );
 			error_log( 'Response Message: ' . wp_remote_retrieve_response_message( $response ) );
+			update_option(
+				self::LAST_ERROR_OPTION_KEY, var_export( $args, true ) . PHP_EOL .
+				'(' . wp_remote_retrieve_response_code( $response ) . ')' . 
+				wp_remote_retrieve_response_message( $response ) , false );
 			return null;
 		}
 

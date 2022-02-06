@@ -65,7 +65,7 @@ class Base_Item_List_Auth {
 				'response_type' => 'code',
 				'client_id'     => $client_id,
 				'redirect_uri'  => $callback_url,
-				'scope'         => 'read_items',
+				'scope'         => 'read_users',
 				'state'         => $state,
 			),
 			self::BASE_API_AUTH_URL
@@ -74,7 +74,7 @@ class Base_Item_List_Auth {
 		exit;
 	}
 
-	public function get_access_token( $code ) {
+	public function get_access_token( $code = '' ) {
 
 		$token = get_transient( self::ACCESS_TOKEN_TRANSIENT_KEY );
 		if ( ! empty( $token ) ) {

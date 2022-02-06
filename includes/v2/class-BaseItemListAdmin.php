@@ -156,6 +156,7 @@ class Base_Item_List_Admin_V2 {
 			</tbody>
 		</table>
 		<hr />
+
 		<h2>パラメータ例</h2>
 	
 		<p>1.「Tシャツ」の検索結果を4件表示する</p>
@@ -163,6 +164,12 @@ class Base_Item_List_Admin_V2 {
 	
 		<p>2.「Tシャツ」の検索結果をサイドバーに1件表示する</p>
 		<code>[BASE_ITEM_V2 q="Tシャツ" count="1" name="side"]</code>
+		<hr />
+
+		<?php $last_error = get_option( Base_Item_List_V2::LAST_ERROR_OPTION_KEY ); if ( ! empty( $last_error ) ) : ?>
+		<h2>エラーログ</h2>
+		<code><?php echo esc_html( $last_error ) ?></code>
+		<?php endif ; ?>
 	
 		</div>
 	<?php
