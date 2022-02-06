@@ -14,7 +14,7 @@ class Admin {
 	);
 
 	public function admin_menu() {
-		add_submenu_page( 'base_item_list', 'API設定(BETA)', 'API設定(BETA)', 'manage_options', 'base_item_list_v2', array( View::class, 'option_page' ) );		
+		add_submenu_page( 'base_item_list', 'API設定(BETA)', 'API設定 <span class="awaiting-mod">ベータ</span>', 'manage_options', 'base_item_list_v2', array( View::class, 'option_page' ) );		
 	}
 
 	public static function option( $key) {
