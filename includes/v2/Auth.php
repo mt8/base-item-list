@@ -2,6 +2,8 @@
 
 namespace mt8\BaseItemList;
 
+use mt8\BaseItemList\Admin\Admin;
+
 class Auth {
 
 	const BASE_API_AUTH_URL = 'https://api.thebase.in/1/oauth/authorize';
@@ -35,13 +37,17 @@ class Auth {
 			delete_option( self::REFRESH_TOKEN_OPTION_KEY );
 		}
 
-		// 認可コード取得
 		$code = $this->get_auth_code();
-
-		// アクセストークン種取得
 		$this->get_access_token( $code );
 
-		wp_safe_redirect( admin_url( '/admin.php?page=base_item_list_v2' ), 301 );
+		$admin_url = add_query_arg(
+			array(
+				'page'   => 'base_item_list_v2',
+				'status' => 'authorized',
+			),
+			admin_url( '/admin.php' )
+		) ;
+		wp_safe_redirect( $admin_url, 301 );
 		exit;
 	}
 	
@@ -58,9 +64,8 @@ class Auth {
 		$state = base64_encode( wp_generate_password( 12, true ,true ) );
 		$_SESSION['oauth_state'] = $state;
 
-		$admin = new Admin();
-		$client_id = $admin->option( 'client_id' );
-		$callback_url = $admin->option( 'callback_url' );
+		$client_id = Admin::option( 'client_id' );
+		$callback_url = Admin::option( 'callback_url' );
 
 		$auth_url = add_query_arg(
 			array(
@@ -83,10 +88,9 @@ class Auth {
 			return $token;
 		}
 
-		$admin = new Admin();
-		$client_id = $admin->option( 'client_id' );
-		$client_secret = $admin->option( 'client_secret' );
-		$callback_url = $admin->option( 'callback_url' );
+		$client_id = Admin::option( 'client_id' );
+		$client_secret = Admin::option( 'client_secret' );
+		$callback_url = Admin::option( 'callback_url' );
 
 		$refresh_token = get_option( self::REFRESH_TOKEN_OPTION_KEY );
 		if ( empty( $refresh_token ) ) {

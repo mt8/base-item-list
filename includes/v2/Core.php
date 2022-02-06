@@ -2,6 +2,8 @@
 
 namespace mt8\BaseItemList;
 
+use mt8\BaseItemList\Admin\Admin;
+
 class Core {
 		
 	const BASE_API_ITEMS_URL = 'https://api.thebase.in/1/items/search';
