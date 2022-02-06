@@ -12,24 +12,6 @@ class Auth {
 	const ACCESS_TOKEN_TRANSIENT_KEY = 'base-item-list-access-token';
 	const REFRESH_TOKEN_OPTION_KEY = 'base-item-list-refresh-token';
 
-	public function init() {
-		add_rewrite_endpoint( 'bil', EP_ROOT );
-		if ( PHP_SESSION_ACTIVE !== session_status() ) {
-			session_start();
-		}
-	}
-
-	public function template_redirect() {
-		if ( 'auth' === get_query_var( 'bil' ) ) {
-			if ( current_user_can( 'administrator' ) ) {
-				$this->authorize();
-			} else {
-				wp_safe_redirect( home_url( '/' ), 301 );
-				exit;
-			}
-		}
-	}
-
 	public function authorize() {
 
 		if ( '1' === filter_input( INPUT_GET, 'force' ) ) {
@@ -42,11 +24,11 @@ class Auth {
 
 		$admin_url = add_query_arg(
 			array(
-				'page'   => 'base_item_list_v2',
+				'page'   => 'base_item_list_setting',
 				'status' => 'authorized',
 			),
 			admin_url( '/admin.php' )
-		) ;
+		);
 		wp_safe_redirect( $admin_url, 301 );
 		exit;
 	}
@@ -71,13 +53,19 @@ class Auth {
 			array(
 				'response_type' => 'code',
 				'client_id'     => $client_id,
-				'redirect_uri'  => $callback_url,
+				'redirect_uri'  => urlencode( $callback_url ),
 				'scope'         => 'read_items',
 				'state'         => $state,
 			),
 			self::BASE_API_AUTH_URL
 		);
-		header( "Location:{$auth_url}" );
+
+		add_filter( 'allowed_redirect_hosts', function ( $allowed ) {
+			$allowed[] = parse_url( self::BASE_API_AUTH_URL, PHP_URL_HOST );
+			return $allowed;
+		});
+
+		wp_safe_redirect( $auth_url, 301 );
 		exit;
 	}
 

@@ -13,14 +13,12 @@ class Core {
 	public function register_hooks() {
 
 		$admin = New Admin();
-		$auth = new Auth();
 
+		add_action( 'admin_init', array( $admin, 'admin_head' ) );
 		add_action( 'admin_menu', array( $admin, 'admin_menu' ) );
+
 		add_action( 'admin_init', array( View::class, 'register_setting_fields' ) );
 		
-		add_action( 'init', array( $auth, 'init' ) );
-		add_action( 'template_redirect', array( $auth, 'template_redirect' ) );
-
 		add_shortcode('BASE_ITEM_V2', array( $this, 'add_shortcode' ) );
 
 	}

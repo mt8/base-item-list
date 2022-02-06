@@ -2,6 +2,8 @@
 
 namespace mt8\BaseItemList\Admin;
 
+use mt8\BaseItemList\Auth;
+
 class Admin {
 
 	const TEXT_DOMAIN = 'base-item-list';
@@ -13,8 +15,25 @@ class Admin {
 		'callback_url'  => '',
 	);
 
+	public function admin_head() {
+		if ( 'auth' === filter_input( INPUT_GET, 'mode' ) ) {
+			if ( PHP_SESSION_ACTIVE !== session_status() ) {
+				@session_start();
+			}			
+			$auth = new Auth();
+			$auth->authorize();
+		}
+	}
+
 	public function admin_menu() {
-		add_submenu_page( 'base_item_list', 'API設定(BETA)', 'API設定 <span class="awaiting-mod">ベータ</span>', 'manage_options', 'base_item_list_v2', array( View::class, 'option_page' ) );		
+		add_submenu_page(
+			'base_item_list',
+			'API設定(BETA)',
+			'API設定 <span class="awaiting-mod">ベータ</span>',
+			'manage_options',
+			'base_item_list_setting',
+			array( View::class, 'option_page' )
+		);		
 	}
 
 	public static function option( $key) {

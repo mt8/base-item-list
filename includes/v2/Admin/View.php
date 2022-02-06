@@ -79,9 +79,11 @@ class View {
 		</form>
 		<hr />
 
-		<?php if ( $admin->saved_options() ) : ?>
+		<?php if ( $admin->saved_options() ) :
+			$callbak_url = add_query_arg( array( 'force' => '1' ), Admin::option( 'callback_url' ) );
+		?>
 		<h2>API認証</h2>
-		<a target="_blank" class="button button-primary" href="<?php echo esc_url( home_url( '/bil/auth?force=1' ) ) ?>">認証する</a>
+		<a class="button button-primary" href="<?php echo esc_url( $callbak_url ) ?>">認証する</a>
 		<h3>トークン</h3>
 		<table class="widefat fixed" cellspacing="0">
 		<thead>
@@ -196,13 +198,23 @@ class View {
 	<?php
 	}
 	
-	public static function field_callback_url() { ?>
+	public static function field_callback_url() {
+
+		$auth_url = add_query_arg(
+			array(
+				'page' => 'base_item_list_setting',
+				'mode' => 'auth',
+			),
+			admin_url( '/admin.php' )
+		);
+
+		?>
 		<input 
 			type="text" 
 			readonly id="callback_url" 
 			name="<?php echo Admin::OPTIONS_KEY ?>[callback_url]" 
 			class="regular-text" 
-			value="<?php echo esc_url( home_url( '/bil/auth' ) ); ?>" 
+			value="<?php echo esc_url( $auth_url ); ?>" 
 		/>
 	<?php
 	}
