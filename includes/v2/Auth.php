@@ -1,27 +1,16 @@
 <?php
 
-class Base_Item_List_Auth {
+namespace mt8\BaseItemList;
+
+use mt8\BaseItemList\Admin\Admin;
+
+class Auth {
 
 	const BASE_API_AUTH_URL = 'https://api.thebase.in/1/oauth/authorize';
 	const BASE_API_TOKEN_URL = 'https://api.thebase.in/1/oauth/token';
 
 	const ACCESS_TOKEN_TRANSIENT_KEY = 'base-item-list-access-token';
 	const REFRESH_TOKEN_OPTION_KEY = 'base-item-list-refresh-token';
-
-	public function init() {
-		add_rewrite_endpoint( 'bil', EP_ROOT );		
-	}
-
-	public function template_redirect() {
-		if ( 'auth' === get_query_var( 'bil' ) ) {
-			if ( true || current_user_can( 'administrator' ) ) {
-				$this->authorize();
-			} else {
-				wp_safe_redirect( home_url( '/' ), 301 );
-				exit;
-			}
-		}
-	}
 
 	public function authorize() {
 
@@ -30,49 +19,66 @@ class Base_Item_List_Auth {
 			delete_option( self::REFRESH_TOKEN_OPTION_KEY );
 		}
 
-		// 認可コード取得
 		$code = $this->get_auth_code();
-
-		// アクセストークン種取得
 		$this->get_access_token( $code );
 
-		wp_safe_redirect( home_url( '/wp-admin/admin.php?page=base_item_list_v2' ), 301 );
+		$admin_url = add_query_arg(
+			array(
+				'page'   => 'base_item_list_setting',
+				'status' => 'authorized',
+			),
+			admin_url( '/admin.php' )
+		);
+		wp_safe_redirect( $admin_url, 301 );
 		exit;
 	}
 	
 	public function get_auth_code() {
 		if ( ! empty( filter_input( INPUT_GET, 'code' ) ) ) {
+			if ( $_SESSION['oauth_state'] !== filter_input( INPUT_GET, 'state' ) ) {
+				wp_die( 'Bad Request' );
+				exit;
+			}
+			unset( $_SESSION['oauth_state'] );
 			return filter_input( INPUT_GET, 'code' );
 		}
 
-		$admin = new Base_Item_List_Admin_V2();
-		$client_id = $admin->option( 'client_id' );
-		$callback_url = $admin->option( 'callback_url' );
+		$state = base64_encode( wp_generate_password( 12, true ,true ) );
+		$_SESSION['oauth_state'] = $state;
+
+		$client_id = Admin::option( 'client_id' );
+		$callback_url = Admin::option( 'callback_url' );
 
 		$auth_url = add_query_arg(
 			array(
 				'response_type' => 'code',
 				'client_id'     => $client_id,
-				'redirect_uri'  => $callback_url,
+				'redirect_uri'  => urlencode( $callback_url ),
 				'scope'         => 'read_items',
+				'state'         => $state,
 			),
 			self::BASE_API_AUTH_URL
 		);
-		header( "Location:{$auth_url}" );
+
+		add_filter( 'allowed_redirect_hosts', function ( $allowed ) {
+			$allowed[] = parse_url( self::BASE_API_AUTH_URL, PHP_URL_HOST );
+			return $allowed;
+		});
+
+		wp_safe_redirect( $auth_url, 301 );
 		exit;
 	}
 
-	public function get_access_token( $code ) {
+	public function get_access_token( $code = '' ) {
 
 		$token = get_transient( self::ACCESS_TOKEN_TRANSIENT_KEY );
 		if ( ! empty( $token ) ) {
 			return $token;
 		}
 
-		$admin = new Base_Item_List_Admin_V2();
-		$client_id = $admin->option( 'client_id' );
-		$client_secret = $admin->option( 'client_secret' );
-		$callback_url = $admin->option( 'callback_url' );
+		$client_id = Admin::option( 'client_id' );
+		$client_secret = Admin::option( 'client_secret' );
+		$callback_url = Admin::option( 'callback_url' );
 
 		$refresh_token = get_option( self::REFRESH_TOKEN_OPTION_KEY );
 		if ( empty( $refresh_token ) ) {

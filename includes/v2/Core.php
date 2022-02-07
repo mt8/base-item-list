@@ -1,20 +1,24 @@
 <?php
 
-class Base_Item_List_V2 {
+namespace mt8\BaseItemList;
+
+use mt8\BaseItemList\Admin\Admin;
+use mt8\BaseItemList\Admin\View;
+
+class Core {
 		
 	const BASE_API_ITEMS_URL = 'https://api.thebase.in/1/items/search';
+	const LAST_ERROR_OPTION_KEY = 'base-item-list-last-error';
 
 	public function register_hooks() {
 
-		$admin = New Base_Item_List_Admin_V2();
-		$auth = new Base_Item_List_Auth();
+		$admin = New Admin();
 
-		add_action( 'admin_init', array( $admin, 'admin_init' ) );
+		add_action( 'admin_init', array( $admin, 'admin_head' ) );
 		add_action( 'admin_menu', array( $admin, 'admin_menu' ) );
-		
-		add_action( 'init', array( $auth, 'init' ) );
-		add_action( 'template_redirect', array( $auth, 'template_redirect' ) );
 
+		add_action( 'admin_init', array( View::class, 'register_setting_fields' ) );
+		
 		add_shortcode('BASE_ITEM_V2', array( $this, 'add_shortcode' ) );
 
 	}
@@ -54,11 +58,19 @@ class Base_Item_List_V2 {
 	
 	public function request_api( $args ) {
 
-		$auth = new Base_Item_List_Auth();
+		$auth = new Auth();
+
+		$token = $auth->get_access_token();
+		if ( empty( $token ) ) {
+			error_log( '==========BASE Item List API Error==========' );
+			error_log( 'アクセストークンが取得できません。認証してください。' );
+			update_option( self::LAST_ERROR_OPTION_KEY, 'アクセストークンが取得できません。認証してください。', false );
+			return null;
+		}
 
 		$args = array(
 			'headers'     => array(
-				'Authorization' => 'Bearer ' . $auth->get_access_token( '' ),
+				'Authorization' => 'Bearer ' . $token,
 			),
 			'body' => array(
 				'q'     => $args['q'],
@@ -72,8 +84,13 @@ class Base_Item_List_V2 {
 
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 			error_log( '==========BASE Item List API Error==========' );
-			error_log( 'Response Code: ' . wp_remote_retrieve_response_code( $response ) );
+			error_log( 'Request Params:   ' . var_export( $args, true ) );
+			error_log( 'Response Code:    ' . wp_remote_retrieve_response_code( $response ) );
 			error_log( 'Response Message: ' . wp_remote_retrieve_response_message( $response ) );
+			update_option(
+				self::LAST_ERROR_OPTION_KEY, var_export( $args, true ) . PHP_EOL .
+				'(' . wp_remote_retrieve_response_code( $response ) . ')' . 
+				wp_remote_retrieve_response_message( $response ) , false );
 			return null;
 		}
 
