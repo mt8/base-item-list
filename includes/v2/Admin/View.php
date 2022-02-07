@@ -232,13 +232,22 @@ class View {
 		);
 
 		?>
-		<input 
-			type="text" 
-			readonly id="callback_url" 
+		<code><?php echo esc_html( $auth_url ); ?></code>
+		<input
+			type="hidden" 
+			readonly
+			id="callback_url"
 			name="<?php echo Admin::OPTIONS_KEY ?>[callback_url]" 
 			class="regular-text" 
 			value="<?php echo esc_url( $auth_url ); ?>" 
 		/>
+		<button onclick="return copy_callback_url()">コピー</button>
+		<script>
+			function copy_callback_url() {
+				navigator.clipboard.writeText(document.getElementById("callback_url").value);
+				return false;
+			}
+		</script>
 	<?php
 	}
 	
