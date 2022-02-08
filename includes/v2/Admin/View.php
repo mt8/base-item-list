@@ -126,7 +126,7 @@ class View {
 
 
 		<h2>ショートコード</h2>
-		<code>[BASE_ITEM_V2]</code>
+		<code>[BASE_ITEM]</code>
 		<hr />
 
 		<h2>パラメータ一覧</h2>
@@ -175,9 +175,9 @@ class View {
 
 		<h2>パラメータ例</h2>
 		<p>1.「Tシャツ」の検索結果を4件表示する</p>
-		<code>[BASE_ITEM_V2 q="Tシャツ" count="4"]</code>
+		<code>[BASE_ITEM q="Tシャツ" count="4"]</code>
 		<p>2.「Tシャツ」の検索結果をサイドバーに1件表示する</p>
-		<code>[BASE_ITEM_V2 q="Tシャツ" count="1" name="side"]</code>
+		<code>[BASE_ITEM q="Tシャツ" count="1" name="side"]</code>
 		<hr />
 
 		<?php $last_error = get_option( Core::LAST_ERROR_OPTION_KEY ); if ( ! empty( $last_error ) ) : ?>
