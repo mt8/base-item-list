@@ -84,7 +84,14 @@ class Base_Item_List_Admin_V1 {
 	}
 
 	public function admin_menu() {
-		add_submenu_page( 'base_item_list', '検索API設定（廃止予定）', '検索API設定（廃止予定）', 'manage_options', 'base_item_list_v1', array( $this, 'add_options_page' ) );		
+		add_submenu_page(
+			'base_item_list',
+			'検索API設定（廃止予定）',
+			'検索API設定<span class="awaiting-mod">廃止予定</span>',
+			'manage_options',
+			'base_item_list_v1',
+			array( $this, 'add_options_page' )
+		);		
 	}
 
 	public function add_options_page() {
@@ -93,7 +100,7 @@ class Base_Item_List_Admin_V1 {
 
 		<div class="error">
 			<p>本プラグインで使用している BASE検索APIが<string><a href="https://docs.thebase.in/docs/api/search/" target="_blank">2022年2月21日で新規受付を終了することがアナウンスされています。</a></strong></p>
-			<p>バージョン2を現在開発中です。</p>
+			<p><a href="/wp-admin/admin.php?page=base_item_list_setting">API設定</a>からAPI認証をしてください。2022年3月リリース予定のバージョン2より、<strong>検索APIの使用を停止</strong>します。）</p>
 		</div>
 
 		<h2>BASE商品リスト 検索API設定（廃止予定）</h2>

@@ -28,8 +28,8 @@ class Admin {
 	public function admin_menu() {
 		add_submenu_page(
 			'base_item_list',
-			'API設定(BETA)',
-			'API設定 <span class="awaiting-mod">ベータ</span>',
+			'API設定',
+			'API設定',
 			'manage_options',
 			'base_item_list_setting',
 			array( View::class, 'option_page' )

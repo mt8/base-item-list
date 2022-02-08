@@ -43,10 +43,10 @@ class Core {
 		if ( ! in_array( $sort, array( 'asc', 'desc' ) ) ) {
 			$sort = 'desc';
 		}
-		if ( ! is_int( $limit ) || 0 > $limit || $limit > 100 ) {
+		if ( 0 >= intval( $limit ) || $limit > 100 ) {
 			$limit = 10;
 		}
-		if ( ! is_int( $cache ) ) {
+		if ( 0 >= intval( $cache ) ) {
 			$cache = 60;
 		}
 
