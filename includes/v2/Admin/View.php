@@ -16,7 +16,7 @@ class View {
 
 		add_settings_section(
 			$section,
-			'settings',
+			'設定',
 			array( View::class, 'settings_section' ), $key
 		);
 
@@ -64,14 +64,44 @@ class View {
 
 	public static function option_page() {
 		$admin = new Admin();
+		$auth = new Auth();
 	?>
 	<div class="wrap">
 
-		<div class="error">
-			<p>開発中の機能です。公開サイトでは使用しないでください。</p>
-		</div>
+		<h2>BASE商品リスト API設定</h2>
 
-		<h2>BASE商品リスト API設定(BETA)</h2>
+		<h2>設定ヘルプ</h2>
+		<table>
+			<tr>
+				<td width="55%" style="vertical-align:top;" >
+				<ul>
+					<li>1.<a target="_blank" href="https://developers.thebase.in/">BASE Developers</a>にアカウント登録し、ログインします。</li>
+					<li>2.<a target="_blank" href="https://developers.thebase.in/apps">アプリケーション</a>ページから、<a target="_blank" href="https://developers.thebase.in/apply">新規作成</a>を開きます。</li>
+					<li>3.次のように入力し「申請する」をクリックします。</li>
+					<ul>
+						<li>　1.アプリ名:「WordPress」など、わかりやすい内容を入力します。</li>
+						<li>　2.アプリの説明:当プラグインを使用する旨などを入力します。</li>
+						<li>　3.アプリURL:WordPressのURLを入力します。<code><?php echo esc_url( home_url( '/' ) ); ?></code></li>
+						<li>　4.コールバックURL:このページの設定欄にある<strong>コールバックURL</strong>をコピー＆ペーストします</li>
+						<li>　5.利用制限:<strong>「商品情報を見る」を必ずチェック</strong>してください。</li>
+					</ul>
+					<li>4.申請後、しばらくするとBASEより承認のメールが届きます。（数日かかることがあります）</li>
+					<li>5.<a target="_blank" href="https://developers.thebase.in/apps">アプリケーション</a>ページに記載されている <strong>client_id</strong>・<strong>client_secret</strong>をこのページに入力して保存します。</li>
+					<li>6.設定を保存後に表示される。「認証する」をクリックして認証します。</li>
+					<li>7.認証が正しく完了すると、ショートコードが使用可能になります。</li>
+				</ul>
+				<p><strong>※認証でエラーになる場合は、3の設定を見直してください。</strong></p>
+				</td>
+				<td width="45%">
+					<p>※クリックで拡大します</p>
+					<a target="_blank" href="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( dirname( __FILE__ ) ) ) )  ?>">
+					<img width="70%" src="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( dirname( __FILE__ ) ) ) )  ?>">
+					</a>
+				</td>
+			</tr>
+		</table>
+		<hr />
+
 		<form method="POST" action="options.php">
 			<?php do_settings_sections( Admin::OPTIONS_KEY ); ?>
 			<?php settings_fields( Admin::OPTIONS_KEY . '_group' ); ?>			
@@ -82,8 +112,15 @@ class View {
 		<?php if ( $admin->saved_options() ) :
 			$callbak_url = add_query_arg( array( 'force' => '1' ), Admin::option( 'callback_url' ) );
 		?>
-		<h2>API認証</h2>
-		<a class="button button-primary" href="<?php echo esc_url( $callbak_url ) ?>">認証する</a>
+
+		<?php if ( $auth->authorized() ) : ?>
+			<h2>API認証(認証済)</h2>
+			<a class="button button-primary" href="<?php echo esc_url( $callbak_url ) ?>">再認証する</a>
+		<?php else : ?>
+			<h2>API認証(未認証)</h2>
+			<a class="button button-primary" href="<?php echo esc_url( $callbak_url ) ?>">認証する</a>
+		<?php endif; ?>
+
 		<h3>トークン</h3>
 		<table class="widefat fixed" cellspacing="0">
 		<thead>
@@ -102,31 +139,8 @@ class View {
 		<hr />
 		<?php endif; ?>
 
-		<h2>設定ヘルプ</h2>
-
-		<ul>
-			<li>1.<a target="_blank" href="https://developers.thebase.in/">BASE Developers</a>にアカウント登録し、ログインします。</li>
-			<li>2.<a target="_blank" href="https://developers.thebase.in/apps">アプリケーション</a>ページから、<a target="_blank" href="https://developers.thebase.in/apply">新規作成</a>を開きます。</li>
-			<li>3.画像のように入力し、「申請する」をクリックします。</li>
-			<ul>
-				<li>　3-1.アプリ名:WordPress等入力します。</li>
-				<li>　3-2.アプリの説明:当プラグインを使用する旨を入力します。</li>
-				<li>　3-3.アプリURL:あなたのWordPress URLを入力します。</li>
-				<li>　3-4.コールバックURL:このページにあるコールバックURLをコピー＆ペーストします</li>
-				<li>　3-5.利用制限:<strong>「商品情報を見る」を必ずチェック</strong>してください。</li>
-			</ul>
-			<li>4.申請後、しばらくするとBASEより承認のメールが届きます。</li>
-			<li>5.アプリ情報に記載されている「client_id」・「client_secret」をこのページに入力・保存し、「認証する」をクリックして認証します。</li>
-			<li>6.ショートコードが使用可能になります。</li>
-		</ul>
-
-		<p>
-		<img width="70%" src="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( dirname( __FILE__ ) ) ) )  ?>">
-		</p>
-
-
 		<h2>ショートコード</h2>
-		<code>[BASE_ITEM_V2]</code>
+		<code>[BASE_ITEM]</code>
 		<hr />
 
 		<h2>パラメータ一覧</h2>
@@ -175,9 +189,9 @@ class View {
 
 		<h2>パラメータ例</h2>
 		<p>1.「Tシャツ」の検索結果を4件表示する</p>
-		<code>[BASE_ITEM_V2 q="Tシャツ" count="4"]</code>
+		<code>[BASE_ITEM q="Tシャツ" limit="4"]</code>
 		<p>2.「Tシャツ」の検索結果をサイドバーに1件表示する</p>
-		<code>[BASE_ITEM_V2 q="Tシャツ" count="1" name="side"]</code>
+		<code>[BASE_ITEM q="Tシャツ" limit="1" name="side"]</code>
 		<hr />
 
 		<?php $last_error = get_option( Core::LAST_ERROR_OPTION_KEY ); if ( ! empty( $last_error ) ) : ?>
@@ -188,7 +202,12 @@ class View {
 	<?php
 	}
 
-	public static function settings_section() {
+	public static function settings_section() { ?>
+		<div class="error">
+			<p>本プラグインで使用している BASE検索APIが<string><a href="https://docs.thebase.in/docs/api/search/" target="_blank">2022年2月21日で新規受付を終了することがアナウンスされています。</a></strong></p>
+			<p>この画面からAPI認証をしてください。2022年3月リリース予定のバージョン2より、<strong>検索APIの使用を停止</strong>します。）</p>
+		</div>
+		<?php 
 		if ( 'true' === filter_input( INPUT_GET, 'settings-updated' ) ) { ?>
 		<div class="updated"><p>設定を保存しました。</p></div>
 		<?php

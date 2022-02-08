@@ -2,6 +2,7 @@
 
 namespace mt8\BaseItemList;
 
+use Exception;
 use mt8\BaseItemList\Admin\Admin;
 use mt8\BaseItemList\Admin\View;
 
@@ -25,34 +26,53 @@ class Core {
 
 	public function add_shortcode( $atts ) {
 
-		//setup parameter
-		extract( shortcode_atts( 
-			array(
-				'q'     => '*',
-				'order' => '',
-				'sort'  => 'desc',
-				'limit' => 10,
-				'cache' => 60,
-				'name'  => 'base_item_list',
-			), $atts ) );
+		try {
+			//setup parameter
+			extract( shortcode_atts( 
+				array(
+					'q'     => '*',
+					'order' => '',
+					'sort'  => 'desc',
+					'limit' => 10,
+					'cache' => 60,
+					'name'  => 'cache',
+				), $atts ) );
 
-		//call API if no cache
-		$json = get_transient( md5( $name ) );
-		if ( ! $json ) {
-			$json = $this->request_api( compact( 'q', 'order', 'sort', 'limit' ) );
-			if ( is_null( $json ) ) {
-				return '';
+			// check parameter
+			if ( ! in_array( $order, array( 'list_order', 'modified' ) ) ) {
+				$order = '';
 			}
-			if ( $cache > 0 ) {
-				set_transient( md5( $name ), $json, $cache );
+			if ( ! in_array( $sort, array( 'asc', 'desc' ) ) ) {
+				$sort = 'desc';
 			}
-		}
+			if ( 0 >= intval( $limit ) || $limit > 100 ) {
+				$limit = 10;
+			}
+			if ( 0 >= intval( $cache ) ) {
+				$cache = 60;
+			}
 
-		//print items
-		if ( count( $json->items ) < (int)$limit ) {
-			$limit = count( $json->items );
+			//call API if no cache
+			$json = get_transient( 'base-item-list-' . md5( $name ) );
+			if ( ! $json ) {
+				$json = $this->request_api( compact( 'q', 'order', 'sort', 'limit' ) );
+				if ( is_null( $json ) ) {
+					return '';
+				}
+				if ( $cache > 0 ) {
+					set_transient( 'base-item-list-' . md5( $name ), $json, $cache );
+				}
+			}
+
+			//print items
+			return $this->item_list( $json->items );
+
+		} catch ( Exception $ex ) {
+			error_log( '==========BASE Item List API Error==========' );
+			error_log( 'エラー:' . $ex->getMessage() );
+			update_option( self::LAST_ERROR_OPTION_KEY, 'エラー:' . $ex->getMessage(), false );
+			return '';
 		}
-		return $this->item_list( array_slice( $json->items, 0, (int)$limit ) );
 
 	}
 	
