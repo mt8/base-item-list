@@ -36,7 +36,30 @@ class Base_Item_List_V1 {
 	}
 	
 	public function add_shortcode( $atts ) {
-		
+
+		// API認証済みの場合は旧ショートコードを使わない
+		$auth = new \mt8\BaseItemList\Auth();
+		if ( $auth->authorized() ) {
+			$core = new \mt8\BaseItemList\Core();
+			
+			// パラメータマイグレーション
+			if ( isset( $atts['q'] ) ) {
+				$atts['q'] = $atts['q'];			// 検索ワード：そのまま
+			}
+			if ( isset( $atts['shop_id'] ) ) {
+				unset( $atts['shop_id'] );			// ショップID：廃止
+			}
+
+			if ( isset( $atts['count'] ) ) {
+				$atts['limit'] = $atts['count'];	// 取得数：limitに変更
+			}
+
+			if ( isset( $atts['sort'] ) ) {
+				$atts['order'] = $atts['sort'];		// ソート：orderに変更（ただしそのままは使えない）
+			}
+			return $core->add_shortcode( $atts );
+		}
+
 		//setup parameter
 		extract( shortcode_atts( 
 			array(
