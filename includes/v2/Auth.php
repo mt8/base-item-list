@@ -69,11 +69,13 @@ class Auth {
 		exit;
 	}
 
-	public function get_access_token( $code = '' ) {
+	public function get_access_token( $code = '', $use_cache = true ) {
 
-		$token = get_transient( self::ACCESS_TOKEN_TRANSIENT_KEY );
-		if ( ! empty( $token ) ) {
-			return $token;
+		if ( $use_cache ) {
+			$token = get_transient( self::ACCESS_TOKEN_TRANSIENT_KEY );
+			if ( ! empty( $token ) ) {
+				return $token;
+			}
 		}
 
 		$client_id = Admin::option( 'client_id' );
@@ -130,6 +132,10 @@ class Auth {
 		} else {
 			return null;
 		}
+	}
+
+	public function authorized() {
+		return ( true !== empty( $this->get_access_token( '', false ) ) );
 	}
 
 }

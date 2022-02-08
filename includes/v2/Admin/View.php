@@ -64,6 +64,7 @@ class View {
 
 	public static function option_page() {
 		$admin = new Admin();
+		$auth = new Auth();
 	?>
 	<div class="wrap">
 
@@ -111,8 +112,15 @@ class View {
 		<?php if ( $admin->saved_options() ) :
 			$callbak_url = add_query_arg( array( 'force' => '1' ), Admin::option( 'callback_url' ) );
 		?>
-		<h2>API認証</h2>
-		<a class="button button-primary" href="<?php echo esc_url( $callbak_url ) ?>">認証する</a>
+
+		<?php if ( $auth->authorized() ) : ?>
+			<h2>API認証(認証済)</h2>
+			<a class="button button-primary" href="<?php echo esc_url( $callbak_url ) ?>">再認証する</a>
+		<?php else : ?>
+			<h2>API認証(未認証)</h2>
+			<a class="button button-primary" href="<?php echo esc_url( $callbak_url ) ?>">認証する</a>
+		<?php endif; ?>
+
 		<h3>トークン</h3>
 		<table class="widefat fixed" cellspacing="0">
 		<thead>
