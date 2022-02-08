@@ -121,6 +121,10 @@ class Core {
 		
 		//set globals
 		$GLOBALS[ 'base_items' ] = $items;
+
+		foreach ( $items as $index => $item ) {
+			$items[$index]->shop_url = untrailingslashit( Admin::option('shop_url') );
+		}
 		
 		 ob_start();
 		if ( is_file( get_stylesheet_directory() . '/base_items.php' ) ) {

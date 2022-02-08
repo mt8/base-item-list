@@ -45,6 +45,14 @@ class View {
 		);
 
 		add_settings_field(
+			'shop_url'
+			,'ショップURL',
+			array( View::class, 'field_shop_url' ), 
+			$key,
+			$section
+		);
+
+		add_settings_field(
 			'use_default_css'
 			,'プラグインCSSを使用する',
 			array( View::class, 'field_use_default_css' ), 
@@ -270,6 +278,17 @@ class View {
 	<?php
 	}
 	
+	public static function field_shop_url() { ?>
+		<input 
+			type="text" 
+			id="shop_url" 
+			name="<?php echo Admin::OPTIONS_KEY ?>[shop_url]" 
+			class="regular-text" 
+			value="<?php echo esc_attr( Admin::option( 'shop_url' ) ) ?>" 
+		/>
+	<?php
+	}
+
 	public static function field_use_default_css() { ?>
 		<input 
 			type="checkbox" 

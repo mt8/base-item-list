@@ -13,6 +13,7 @@ class Admin {
 		'client_id'     => '',
 		'client_secret' => '',
 		'callback_url'  => '',
+		'shop_url'      => '',
 	);
 
 	public function admin_head() {
