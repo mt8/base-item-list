@@ -24,10 +24,7 @@ add_action( 'admin_menu', function() {
 });
 
 // v2
-require_once __DIR__ . '/includes/v2/Core.php';
-require_once __DIR__ . '/includes/v2/Admin/Admin.php';
-require_once __DIR__ . '/includes/v2/Admin/View.php';
-require_once __DIR__ . '/includes/v2/Auth.php';
+require_once __DIR__ . '/vendor/autoload.php';
 $bilo_v2 = new \mt8\BaseItemList\Core();
 $bilo_v2->register_hooks();
 

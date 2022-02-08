@@ -1,0 +1,22 @@
+{
+    "name": "mt8/base-item-list",
+    "description": "BASEの商品リストをショートコードで埋め込むプラグイン",
+    "type": "wordpress-plugin",
+    "require-dev": {
+        "phpunit/phpunit": "^5.7|^6",
+        "wp-phpunit/wp-phpunit": "^5.4",
+        "yoast/phpunit-polyfills": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+          "mt8\\BaseItemList\\" : "includes/v2/"
+        }
+    },
+    "scripts": {
+      "setup-phpunit"  : "bash tests/phpunit/install-wp-tests.sh tests-wordpress root password tests-mysql '' true true",
+      "phpunit"        : "wp-env run phpunit 'IS_WP_ENV=1 phpunit -c /var/www/html/wp-content/plugins/base-item-list/tests/phpunit/phpunit.xml.dist --verbose'",
+      "test" : [
+        "@phpunit"
+      ]
+    }
+}
