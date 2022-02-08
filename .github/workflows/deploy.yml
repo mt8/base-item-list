@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - name: Cache composer packages
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: composer-${{ hashFiles('composer.lock') }}
+    - name: Composer install
+      run: composer install --no-dev
     - name: WordPress Plugin Deploy
       uses: 10up/action-wordpress-plugin-deploy@stable
       env:
