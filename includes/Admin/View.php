@@ -102,8 +102,8 @@ class View {
 				</td>
 				<td width="45%">
 					<p>※クリックで拡大します</p>
-					<a target="_blank" href="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( dirname( __FILE__ ) ) ) )  ?>">
-					<img width="70%" src="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( dirname( __FILE__ ) ) ) )  ?>">
+					<a target="_blank" href="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( __FILE__ ) ) ) ?>">
+					<img width="70%" src="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( __FILE__ ) ) ) ?>">
 					</a>
 				</td>
 			</tr>
@@ -189,7 +189,7 @@ class View {
 				<tr>
 					<td>name</td>
 					<td>複数エリアに設置する場合に指定します。この名前をキーにキャッシュが作成されます。</td>
-					<td>base_item_list_v2</td>
+					<td>base_item_list</td>
 				</tr>
 			</tbody>
 		</table>
@@ -212,8 +212,8 @@ class View {
 
 	public static function settings_section() { ?>
 		<div class="error">
-			<p>本プラグインで使用している BASE検索APIが<string><a href="https://docs.thebase.in/docs/api/search/" target="_blank">2022年2月21日で新規受付を終了することがアナウンスされています。</a></strong></p>
-			<p>この画面からAPI認証をしてください。2022年3月リリース予定のバージョン2より、<strong>検索APIの使用を停止</strong>します。）</p>
+			<p>本プラグインで使用している BASE検索APIが<string><a href="https://docs.thebase.in/docs/api/search/" target="_blank">2022年2月21日で新規受付を終了したため</a></strong></p>
+			<p>2022年8月リリース予定のバージョン2より、<strong>検索APIの使用を停止</strong>しました。）</p>
 		</div>
 		<?php 
 		if ( 'true' === filter_input( INPUT_GET, 'settings-updated' ) ) { ?>
