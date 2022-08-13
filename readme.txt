@@ -2,9 +2,9 @@
 Contributors: mt8.biz, shimakyohsuke
 Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
-Requires at least: 4.4
-Tested up to: 5.9
-Stable tag: 1.2.4
+Requires at least: 5.9
+Tested up to: 6.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,22 +17,11 @@ BASE商品情報をリスト表示するショートコード:[BASE_ITEM] を使
 = ショートコードパラメータ =
 
 * q: 検索キーワード
-* shop_id: ショップID(設定画面で固定化することもできます)
-* count: 表示件数(デフォルト:10[件])
-* cache: 結果キャッシュ時間(デフォルト:60[秒])
-* name: 結果キャッシュ名(デフォルト:base_item_list)※複数箇所にショートコードを設置する場合に使用
-* sort: 並び順。item_id、price、stock、order_count、modifiedのascまたはdesc (例: order_count desc,item_id asc) (デフォルト: BASEのおすすめ順)
-
-**※shop_idについて**
-
-shop_idの設定ミスに対するお問い合わせが増えています。
-以下を参考にして下さい。
-
-ドメインがthebase.inの場合はサブドメインの部分
-    例）mt8.thebase.in -> mt8
-
-ドメインがthebase.in以外の場合はドットをハイフンに変えたもの
-    例）mt8.theshop.jp -> mt8-theshop-jp
+* order: 並び替え項目。list_order、modifiedのいずれか（未指定時: キーワードマッチ度順）
+* sort: 並び順。asc か desc のいずれか（未指定時: desc）
+* limit: 表示する商品数。 (MAX: 100)（未指定時：10）
+* cache: APIの結果をキャッシュする時間（秒）です。（未指定時：60）
+* name: 複数エリアに設置する場合に指定します。この名前をキーにキャッシュが作成されます。（未指定時：base_item_list）
 
 = 出力テンプレート =
 
@@ -42,7 +31,7 @@ shop_idの設定ミスに対するお問い合わせが増えています。
 
 = 設定 =
 
-管理画面 -> BASE商品リストより、BASE APIのアプリ情報を設定して下さい。
+管理画面 -> BASE Item Listより、BASE APIのアプリ情報を設定して下さい。
 
 ※ BASE APIは事前に申請が必要です。https://developers.thebase.in/
 
@@ -162,3 +151,6 @@ Not yet.
 
 = 1.2.2 =
 * ベター機能のアップデート
+
+= 2.0.0 =
+* 検索APIの廃止

@@ -15,12 +15,13 @@ class Core {
 
 		$admin = New Admin();
 
-		add_action( 'admin_init', array( $admin, 'admin_head' ) );
+		add_action( 'admin_init', array( $admin, 'admin_init' ) );
 		add_action( 'admin_menu', array( $admin, 'admin_menu' ) );
-
 		add_action( 'admin_init', array( View::class, 'register_setting_fields' ) );
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 		
-		add_shortcode('BASE_ITEM_V2', array( $this, 'add_shortcode' ) );
+		add_shortcode('BASE_ITEM', array( $this, 'add_shortcode' ) );
 
 	}
 
@@ -132,10 +133,20 @@ class Core {
 			get_template_part( 'base_items' );
 		} else {
 			//load base_items.php in this plugin.
-			include dirname( dirname(__DIR__) ) . '/template/v2/base_items.php';
+			include dirname(__DIR__) . '/template/base_items.php';
 		}
 		return ob_get_clean();
 
+	}
+
+	public function wp_enqueue_scripts() {
+		$admin = New Admin();
+		if ( true || '1' == $admin->option( 'use_default_css' ) ) {
+			wp_enqueue_style(
+				'base-item-list',
+				plugins_url( '/assets/css/base-item-list.css', dirname(__FILE__) )
+			);
+		}
 	}
 
 }

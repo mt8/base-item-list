@@ -4,7 +4,7 @@
 	Plugin URI: https://github.com/mt8/base-item-list
 	Description: Display BASE(https://thebase.in/) Item List by shortcode [BASE_ITEM]
 	Author: mt8.biz, shimakyohsuke
-	Version: 1.2.4
+	Version: 2.0.0
 	Author URI: https://mt8.biz
 	Domain Path: /languages
 	Text Domain: base-item-list
@@ -15,7 +15,7 @@ add_action( 'admin_menu', function() {
 	$admin_view = new \mt8\BaseItemList\Admin\View();
 	add_menu_page(
 		'BASE Item List',
-		'BASE Item List<span class="awaiting-mod"> !</span>' ,
+		'BASE Item List' ,
 		'manage_options',
 		'base_item_list',
 		array( $admin_view, 'option_page' ),
@@ -23,16 +23,9 @@ add_action( 'admin_menu', function() {
 	);
 });
 
-// v2
-require_once __DIR__ . '/includes/v2/Core.php';
-require_once __DIR__ . '/includes/v2/Admin/Admin.php';
-require_once __DIR__ . '/includes/v2/Admin/View.php';
-require_once __DIR__ . '/includes/v2/Auth.php';
-$bilo_v2 = new \mt8\BaseItemList\Core();
-$bilo_v2->register_hooks();
-
-// v1
-require_once __DIR__ . '/includes/v1/class-BaseItemList.php';
-require_once __DIR__ . '/includes/v1/class-BaseItemListAdmin.php';
-$bilo_v1 = new Base_Item_List_V1();
-$bilo_v1->register_hooks();
+require_once __DIR__ . '/includes/Core.php';
+require_once __DIR__ . '/includes/Admin/Admin.php';
+require_once __DIR__ . '/includes/Admin/View.php';
+require_once __DIR__ . '/includes/Auth.php';
+$bilo = new \mt8\BaseItemList\Core();
+$bilo->register_hooks();

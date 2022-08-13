@@ -16,7 +16,7 @@ class Admin {
 		'shop_url'      => '',
 	);
 
-	public function admin_head() {
+	public function admin_init() {
 		if ( 'auth' === filter_input( INPUT_GET, 'mode' ) ) {
 			if ( PHP_SESSION_ACTIVE !== session_status() ) {
 				@session_start();
