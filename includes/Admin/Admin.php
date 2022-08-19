@@ -17,7 +17,37 @@ class Admin {
 	);
 
 	public function admin_init() {
-		if ( 'auth' === filter_input( INPUT_GET, 'mode' ) ) {
+
+		$request_to_auth = false;
+		global $pagenow;
+		if ( isset( $pagenow ) && 'admin.php' === $pagenow && 'base_item_list_setting' === filter_input( INPUT_GET, 'page' ) ) {
+			$request_to_auth = true;
+		}
+		if ( ! $request_to_auth ) {
+			return;
+		}
+
+		$do_auth = false;
+
+		$nonce_check = (
+			! empty( filter_input( INPUT_POST, 'base_item_list_auth' ) )
+			&&
+			wp_verify_nonce( filter_input( INPUT_POST, 'base_item_list_auth' ), 'base_item_list_auth' )
+		);
+		if ( $nonce_check ) {
+			$do_auth = true;
+		}
+
+		$call_back = (
+			! empty( filter_input( INPUT_GET, 'state' ) )
+			&&
+			! empty( filter_input( INPUT_GET, 'code' ) )
+		);
+		if ( $call_back ) {
+			$do_auth = true;
+		}
+
+		if ( $do_auth ) {
 			if ( PHP_SESSION_ACTIVE !== session_status() ) {
 				@session_start();
 			}			
