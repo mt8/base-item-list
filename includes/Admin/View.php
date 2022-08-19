@@ -120,14 +120,16 @@ class View {
 		<?php if ( $admin->saved_options() ) :
 			$callbak_url = add_query_arg( array( 'force' => '1' ), Admin::option( 'callback_url' ) );
 		?>
-
-		<?php if ( $auth->authorized() ) : ?>
-			<h2>API認証(認証済)</h2>
-			<a class="button button-primary" href="<?php echo esc_url( $callbak_url ) ?>">再認証する</a>
-		<?php else : ?>
-			<h2>API認証(未認証)</h2>
-			<a class="button button-primary" href="<?php echo esc_url( $callbak_url ) ?>">認証する</a>
-		<?php endif; ?>
+		<form method="POST" action="<?php echo esc_url( $callbak_url ) ?>" >
+			<?php wp_nonce_field( 'base_item_list_auth', 'base_item_list_auth' ); ?>			
+			<?php if ( $auth->authorized() ) : ?>
+				<h2>API認証(認証済)</h2>
+				<button class="button button-primary">再認証する</button>
+			<?php else : ?>
+				<h2>API認証(未認証)</h2>
+				<button class="button button-primary">認証する</button>
+			<?php endif; ?>
+		</form>
 
 		<h3>トークン</h3>
 		<table class="widefat fixed" cellspacing="0">
