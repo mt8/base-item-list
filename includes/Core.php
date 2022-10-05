@@ -32,6 +32,7 @@ class Core {
 			extract( shortcode_atts( 
 				array(
 					'q'     => '*',
+					'fields' => 'title,detail,categories',
 					'order' => '',
 					'sort'  => 'desc',
 					'limit' => 10,
@@ -56,7 +57,7 @@ class Core {
 			//call API if no cache
 			$json = get_transient( 'base-item-list-' . md5( $name ) );
 			if ( ! $json ) {
-				$json = $this->request_api( compact( 'q', 'order', 'sort', 'limit' ) );
+				$json = $this->request_api( compact( 'q', 'fields', 'order', 'sort', 'limit' ) );
 				if ( is_null( $json ) ) {
 					return '';
 				}
@@ -95,6 +96,7 @@ class Core {
 			),
 			'body' => array(
 				'q'     => $args['q'],
+				'fields' => $args['fields'],
 				'order' => $args['order'],
 				'sort'  => $args['sort'],
 				'limit' => $args['limit'],
