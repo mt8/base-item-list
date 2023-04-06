@@ -28,18 +28,32 @@ class Core {
 	public function add_shortcode( $atts ) {
 
 		try {
+
+			$fields_default = array(
+				'title',
+				'detail',
+				'categories',
+			);
+
 			//setup parameter
 			extract( shortcode_atts( 
 				array(
-					'q'     => '*',
-					'order' => '',
-					'sort'  => 'desc',
-					'limit' => 10,
-					'cache' => 60,
-					'name'  => 'cache',
+					'q'      => '*',
+					'fields' => implode( ',', $fields_default ),
+					'order'  => '',
+					'sort'   => 'desc',
+					'limit'  => 10,
+					'cache'  => 60,
+					'name'   => 'cache',
 				), $atts ) );
 
 			// check parameter
+			$fields_check = explode( ',', $fields );
+			foreach ( $fields_check as $field ) {
+				if ( ! in_array( $field, $fields_default ) ) {
+					$fields = implode( ',', $fields_default );
+				}
+			}
 			if ( ! in_array( $order, array( 'list_order', 'modified' ) ) ) {
 				$order = '';
 			}
@@ -56,7 +70,7 @@ class Core {
 			//call API if no cache
 			$json = get_transient( 'base-item-list-' . md5( $name ) );
 			if ( ! $json ) {
-				$json = $this->request_api( compact( 'q', 'order', 'sort', 'limit' ) );
+				$json = $this->request_api( compact( 'q', 'fields', 'order', 'sort', 'limit' ) );
 				if ( is_null( $json ) ) {
 					return '';
 				}
@@ -94,10 +108,11 @@ class Core {
 				'Authorization' => 'Bearer ' . $token,
 			),
 			'body' => array(
-				'q'     => $args['q'],
-				'order' => $args['order'],
-				'sort'  => $args['sort'],
-				'limit' => $args['limit'],
+				'q'      => $args['q'],
+				'fields' => $args['fields'],
+				'order'  => $args['order'],
+				'sort'   => $args['sort'],
+				'limit'  => $args['limit'],
 			)
 		);
 

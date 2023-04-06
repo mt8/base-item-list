@@ -213,11 +213,7 @@ class View {
 	}
 
 	public static function settings_section() { ?>
-		<div class="error">
-			<p>本プラグインで使用している BASE検索APIが<string><a href="https://docs.thebase.in/docs/api/search/" target="_blank">2022年2月21日で新規受付を終了したため</a></strong></p>
-			<p>2022年8月リリース予定のバージョン2より、<strong>検索APIの使用を停止</strong>しました。）</p>
-		</div>
-		<?php 
+		<?php
 		if ( 'true' === filter_input( INPUT_GET, 'settings-updated' ) ) { ?>
 		<div class="updated"><p>設定を保存しました。</p></div>
 		<?php
