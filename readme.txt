@@ -3,8 +3,8 @@ Contributors: mt8.biz, shimakyohsuke
 Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 5.9
-Tested up to: 6.0
-Stable tag: 2.0.1
+Tested up to: 6.2
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,7 +25,7 @@ BASE商品情報をリスト表示するショートコード:[BASE_ITEM] を使
 
 = 出力テンプレート =
 
-デフォルトのテンプレートはプラグインディレクトリ内にある「base_items.php」です。
+デフォルトのテンプレートはプラグインディレクトリ内にある「/template/base_items.php」です。
 
 有効化しているテーマフォルダ内にこのファイルをコピーすることでオリジナルの表示をさせることができます。
 
@@ -42,63 +42,9 @@ BASE商品情報をリスト表示するショートコード:[BASE_ITEM] を使
 
 == Screenshots ==
 
-1. Latest information
-
 == Frequently Asked Questions ==
 
 Not yet.
-
-== Upgrade Notice ==
-
-= 1.0.0 =
-* First release
-
-= 1.0.1 =
-* Fix readme.txt
-
-= 1.0.2 =
-* Fix bug
-
-= 1.0.3 =
-* Tested to: 4.8
-* Update Readme
-
-= 1.0.4 =
-* Tested to: 5.2
-* Fix bug
-* Update setting page
-
-= 1.1.1 =
-* add default css
-
-= 1.1.2 =
-* Tested to: 5.6
-
-= 1.1.3 =
-* Added sort parameter
-* Output error log when API call fails
-* Tested to: 5.7
-
-= 1.1.4 =
-* Added list_order
-
-= 1.1.5 =
-* CD/CI by GitHub Actions
-
-= 1.1.6 =
-* remove unuse files
-
-= 1.1.7 =
-* remove unuse files again
-
-= 1.1.8 =
-* code refactor
-
-= 1.2 =
-* Release BETA for new API
-
-= 1.2.2 =
-* Update BETA
 
 == Changelog ==
 
@@ -157,3 +103,6 @@ Not yet.
 
 = 2.0.1 =
 * BASE認証時のセキュリティチェック
+
+= 2.0.2 =
+* Tested up to 6.2
