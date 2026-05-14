@@ -1,0 +1,21 @@
+{
+  "name": "base-item-list",
+  "version": "2.0.3",
+  "description": "Display BASE(https://thebase.in/) Item List by shortcode [BASE_ITEM]",
+  "private": true,
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "format": "wp-scripts format",
+    "lint:js": "wp-scripts lint-js",
+    "lint:js:fix": "wp-scripts lint-js --fix",
+    "test:unit": "wp-scripts test-unit-js --passWithNoTests"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^30.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

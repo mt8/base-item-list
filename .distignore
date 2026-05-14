@@ -37,6 +37,7 @@ yarn.lock
 tests
 vendor
 node_modules
+src
 *.sql
 *.tar.gz
 *.zip
@@ -45,4 +46,6 @@ node_modules
 .wordpress-org
 .phpunit.cache
 .phpcs-cache
+.nvmrc
+jest.config.js
 CLAUDE.md
