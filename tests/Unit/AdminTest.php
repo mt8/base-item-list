@@ -102,4 +102,13 @@ class AdminTest extends TestCase {
 
 		( new Admin() )->admin_menu();
 	}
+
+	public function test_admin_enqueue_scripts_skips_for_unrelated_admin_pages(): void {
+		Functions\expect( 'wp_enqueue_script' )->never();
+		Functions\expect( 'wp_enqueue_style' )->never();
+		Functions\expect( 'wp_localize_script' )->never();
+
+		( new Admin() )->admin_enqueue_scripts( 'edit.php' );
+		$this->assertTrue( true );
+	}
 }

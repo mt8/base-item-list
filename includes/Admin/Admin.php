@@ -67,6 +67,59 @@ class Admin {
 		);
 	}
 
+	const ADMIN_HOOKS = array(
+		'toplevel_page_base_item_list',
+		'base_item_list_page_base_item_list_setting',
+	);
+
+	public function admin_enqueue_scripts( $hook_suffix ) {
+
+		if ( ! in_array( $hook_suffix, self::ADMIN_HOOKS, true ) ) {
+			return;
+		}
+
+		$plugin_dir = dirname( __DIR__, 2 );
+		$plugin_url = plugin_dir_url( $plugin_dir . '/plugin.php' );
+		$asset_file = $plugin_dir . '/build/admin/index.asset.php';
+
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+
+		$asset = include $asset_file;
+
+		wp_enqueue_script(
+			'base-item-list-admin',
+			$plugin_url . 'build/admin/index.js',
+			$asset['dependencies'],
+			$asset['version'],
+			true
+		);
+
+		wp_enqueue_style( 'wp-components' );
+
+		$callback_url = add_query_arg(
+			array(
+				'page' => 'base_item_list_setting',
+				'mode' => 'auth',
+			),
+			admin_url( '/admin.php' )
+		);
+
+		wp_localize_script(
+			'base-item-list-admin',
+			'basItemListAdmin',
+			array(
+				'callbackUrl'    => $callback_url,
+				'homeUrl'        => home_url( '/' ),
+				'screenshotUrl'  => $plugin_url . 'assets/images/api-apply.png',
+				'justAuthorized' => 'authorized' === filter_input( INPUT_GET, 'status' ),
+			)
+		);
+
+		wp_set_script_translations( 'base-item-list-admin', 'base-item-list' );
+	}
+
 	public static function option( $key ) {
 		$option = get_option( self::OPTIONS_KEY, self::OPTIONS_DEFUALT );
 		if ( is_array( $option ) && array_key_exists( $key, $option ) ) {

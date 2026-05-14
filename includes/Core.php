@@ -4,7 +4,6 @@ namespace mt8\BaseItemList;
 
 use Exception;
 use mt8\BaseItemList\Admin\Admin;
-use mt8\BaseItemList\Admin\View;
 use mt8\BaseItemList\Rest\SettingsController;
 
 class Core {
@@ -18,7 +17,7 @@ class Core {
 
 		add_action( 'admin_init', array( $admin, 'admin_init' ) );
 		add_action( 'admin_menu', array( $admin, 'admin_menu' ) );
-		add_action( 'admin_init', array( View::class, 'register_setting_fields' ) );
+		add_action( 'admin_enqueue_scripts', array( $admin, 'admin_enqueue_scripts' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 
