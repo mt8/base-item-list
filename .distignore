@@ -17,6 +17,7 @@ bin
 .circleci/config.yml
 composer.json
 composer.lock
+composer.phar
 dependencies.yml
 Gruntfile.js
 package.json
@@ -42,3 +43,6 @@ node_modules
 .wp-env.json
 .github
 .wordpress-org
+.phpunit.cache
+.phpcs-cache
+CLAUDE.md

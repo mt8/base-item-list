@@ -48,9 +48,9 @@ class Admin {
 		}
 
 		if ( $do_auth ) {
-			if ( PHP_SESSION_ACTIVE !== session_status() ) {
-				@session_start();
-			}			
+			if ( PHP_SESSION_NONE === session_status() ) {
+				session_start();
+			}
 			$auth = new Auth();
 			$auth->authorize();
 		}
@@ -64,13 +64,13 @@ class Admin {
 			'manage_options',
 			'base_item_list_setting',
 			array( View::class, 'option_page' )
-		);		
+		);
 	}
 
-	public static function option( $key) {
+	public static function option( $key ) {
 		$option = get_option( self::OPTIONS_KEY, self::OPTIONS_DEFUALT );
 		if ( is_array( $option ) && array_key_exists( $key, $option ) ) {
-			return $option[$key];
+			return $option[ $key ];
 		} else {
 			return '';
 		}

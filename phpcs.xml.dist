@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<ruleset name="BASE Item List">
+	<description>Coding standards for the BASE Item List plugin.</description>
+
+	<file>plugin.php</file>
+	<file>includes</file>
+	<file>template</file>
+
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/tests/*</exclude-pattern>
+	<exclude-pattern>*/assets/*</exclude-pattern>
+
+	<arg name="basepath" value="."/>
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
+	<arg name="parallel" value="8"/>
+
+	<config name="minimum_supported_wp_version" value="5.9"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress">
+		<!-- Filenames use PascalCase to match the PSR-4 class layout. -->
+		<exclude name="WordPress.Files.FileName"/>
+		<!-- Stylistic comment punctuation is not enforced. -->
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
+		<!-- The plugin pre-dates Yoda; not worth churning. -->
+		<exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
+		<!-- error_log() and var_export() are used intentionally to surface API errors. -->
+		<exclude name="WordPress.PHP.DevelopmentFunctions.error_log_error_log"/>
+		<exclude name="WordPress.PHP.DevelopmentFunctions.error_log_var_export"/>
+		<!-- Strict in_array() comparisons are not required for these small fixed allow-lists. -->
+		<exclude name="WordPress.PHP.StrictInArray.MissingTrueStrict"/>
+		<!-- Resource versioning is delegated to wp.org's plugin version. -->
+		<exclude name="WordPress.WP.EnqueuedResourceParameters.MissingVersion"/>
+		<!-- Project convention: keep docblocks light. Public APIs are documented inline where helpful. -->
+		<exclude name="Squiz.Commenting.FileComment.Missing"/>
+		<exclude name="Squiz.Commenting.FileComment.WrongStyle"/>
+		<exclude name="Squiz.Commenting.ClassComment.Missing"/>
+		<exclude name="Squiz.Commenting.FunctionComment.Missing"/>
+		<exclude name="Squiz.Commenting.VariableComment.Missing"/>
+		<!-- The default template intentionally documents the API response shape with a block comment. -->
+		<exclude name="Squiz.PHP.CommentedOutCode.Found"/>
+		<exclude name="Squiz.Commenting.BlockComment.NoEmptyLineBefore"/>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="base-item-list"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="PHPCompatibilityWP"/>
+</ruleset>
