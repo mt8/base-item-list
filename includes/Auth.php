@@ -12,6 +12,23 @@ class Auth {
 	const ACCESS_TOKEN_TRANSIENT_KEY = 'base-item-list-access-token';
 	const REFRESH_TOKEN_OPTION_KEY   = 'base-item-list-refresh-token';
 
+	/**
+	 * Authorize endpoint, filterable via `base_item_list_auth_url`.
+	 *
+	 * Useful for pointing the OAuth flow at a mock server in dev/test environments
+	 * without touching production behaviour.
+	 */
+	public static function auth_endpoint(): string {
+		return (string) apply_filters( 'base_item_list_auth_url', self::BASE_API_AUTH_URL );
+	}
+
+	/**
+	 * Token exchange endpoint, filterable via `base_item_list_token_url`.
+	 */
+	public static function token_endpoint(): string {
+		return (string) apply_filters( 'base_item_list_token_url', self::BASE_API_TOKEN_URL );
+	}
+
 	public function authorize() {
 
 		if ( '1' === filter_input( INPUT_GET, 'force' ) ) {
@@ -52,7 +69,8 @@ class Auth {
 		$client_id    = Admin::option( 'client_id' );
 		$callback_url = Admin::option( 'callback_url' );
 
-		$auth_url = add_query_arg(
+		$auth_endpoint = self::auth_endpoint();
+		$auth_url      = add_query_arg(
 			array(
 				'response_type' => 'code',
 				'client_id'     => $client_id,
@@ -60,13 +78,13 @@ class Auth {
 				'scope'         => 'read_items',
 				'state'         => $state,
 			),
-			self::BASE_API_AUTH_URL
+			$auth_endpoint
 		);
 
 		add_filter(
 			'allowed_redirect_hosts',
-			function ( $allowed ) {
-				$allowed[] = wp_parse_url( self::BASE_API_AUTH_URL, PHP_URL_HOST );
+			function ( $allowed ) use ( $auth_endpoint ) {
+				$allowed[] = wp_parse_url( $auth_endpoint, PHP_URL_HOST );
 				return $allowed;
 			}
 		);
@@ -91,7 +109,7 @@ class Auth {
 		$refresh_token = get_option( self::REFRESH_TOKEN_OPTION_KEY );
 		if ( empty( $refresh_token ) ) {
 			$res = wp_remote_post(
-				self::BASE_API_TOKEN_URL,
+				self::token_endpoint(),
 				array(
 					'headers' => array(
 						'Content-Type: application/x-www-form-urlencoded',
@@ -107,7 +125,7 @@ class Auth {
 			);
 		} else {
 			$res = wp_remote_post(
-				self::BASE_API_TOKEN_URL,
+				self::token_endpoint(),
 				array(
 					'headers' => array(
 						'Content-Type: application/x-www-form-urlencoded',

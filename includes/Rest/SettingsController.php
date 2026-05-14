@@ -120,7 +120,7 @@ class SettingsController {
 				'scope'         => 'read_items',
 				'state'         => $state,
 			),
-			Auth::BASE_API_AUTH_URL
+			Auth::auth_endpoint()
 		);
 
 		return rest_ensure_response( array( 'redirect_url' => $auth_url ) );

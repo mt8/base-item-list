@@ -35,6 +35,14 @@ BASE商品情報をリスト表示するショートコード:[BASE_ITEM] を使
 
 ※ BASE APIは事前に申請が必要です。https://developers.thebase.in/
 
+= 開発者向け: エンドポイント URL を差し替えるフィルタ =
+
+ローカル mock サーバ等への向き先変更のために以下のフィルタが利用できます。フィルタを登録しない限り本番挙動と同一です。
+
+* `base_item_list_auth_url`  : OAuth 認可エンドポイント (デフォルト: https://api.thebase.in/1/oauth/authorize)
+* `base_item_list_token_url` : OAuth トークン交換エンドポイント (デフォルト: https://api.thebase.in/1/oauth/token)
+* `base_item_list_items_url` : 商品検索 API エンドポイント (デフォルト: https://api.thebase.in/1/items/search)
+
 == Installation ==
 
 1. Upload `base-item-list.zip` to the `/wp-content/plugins/` directory

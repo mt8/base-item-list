@@ -11,6 +11,14 @@ class Core {
 	const BASE_API_ITEMS_URL    = 'https://api.thebase.in/1/items/search';
 	const LAST_ERROR_OPTION_KEY = 'base-item-list-last-error';
 
+	/**
+	 * Items search endpoint, filterable via `base_item_list_items_url`. Useful for
+	 * routing requests at a mock BASE API server in dev/test environments.
+	 */
+	public static function items_endpoint(): string {
+		return (string) apply_filters( 'base_item_list_items_url', self::BASE_API_ITEMS_URL );
+	}
+
 	public function register_hooks() {
 
 		$admin = new Admin();
@@ -129,7 +137,7 @@ class Core {
 			),
 		);
 
-		$response = wp_remote_get( self::BASE_API_ITEMS_URL, $args );
+		$response = wp_remote_get( self::items_endpoint(), $args );
 
 		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
 			error_log( '==========BASE Item List API Error==========' );
