@@ -81,9 +81,10 @@ class SettingsController {
 	}
 
 	public function get_auth_status( WP_REST_Request $request ) {
-		$access_token  = get_transient( Auth::ACCESS_TOKEN_TRANSIENT_KEY );
-		$refresh_token = get_option( Auth::REFRESH_TOKEN_OPTION_KEY );
-		$last_error    = get_option( Core::LAST_ERROR_OPTION_KEY );
+		$access_token    = get_transient( Auth::ACCESS_TOKEN_TRANSIENT_KEY );
+		$refresh_token   = get_option( Auth::REFRESH_TOKEN_OPTION_KEY );
+		$last_error      = get_option( Core::LAST_ERROR_OPTION_KEY );
+		$last_error_time = get_option( Core::LAST_ERROR_TIME_OPTION_KEY );
 
 		return rest_ensure_response(
 			array(
@@ -91,6 +92,7 @@ class SettingsController {
 				'access_token_present'  => ! empty( $access_token ),
 				'refresh_token_present' => ! empty( $refresh_token ),
 				'last_error'            => $last_error ? (string) $last_error : '',
+				'last_error_time'       => $last_error_time ? (int) $last_error_time : 0,
 			)
 		);
 	}

@@ -1,4 +1,4 @@
-import { Notice, Spinner } from '@wordpress/components';
+import { Notice, Panel, PanelBody, Spinner } from '@wordpress/components';
 import { useCallback, useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
@@ -109,27 +109,56 @@ export default function App( { config } ) {
 				</Notice>
 			) }
 
-			<div style={ { display: 'grid', gap: 16, marginTop: 16 } }>
-				<HelpPanel
-					homeUrl={ config.homeUrl }
-					screenshotUrl={ config.screenshotUrl }
-				/>
-				<SettingsPanel
-					initialSettings={ settings }
-					callbackUrl={ config.callbackUrl }
-					onSave={ handleSave }
-					saving={ saving }
-				/>
-				{ showAuthPanel && (
-					<AuthPanel
-						authStatus={ authStatus }
-						onStart={ handleAuthStart }
-						starting={ starting }
+			<Panel className="bil-admin-panel" style={ { marginTop: 16 } }>
+				<PanelBody title={ __( '設定', 'base-item-list' ) } initialOpen>
+					<SettingsPanel
+						initialSettings={ settings }
+						callbackUrl={ config.callbackUrl }
+						onSave={ handleSave }
+						saving={ saving }
 					/>
+				</PanelBody>
+
+				{ showAuthPanel && (
+					<PanelBody
+						title={ __( 'API 認証', 'base-item-list' ) }
+						initialOpen
+					>
+						<AuthPanel
+							authStatus={ authStatus }
+							onStart={ handleAuthStart }
+							starting={ starting }
+						/>
+					</PanelBody>
 				) }
-				<ShortcodeReference />
-				<ErrorLogPanel lastError={ authStatus.last_error } />
-			</div>
+
+				<PanelBody
+					title={ __( 'ショートコード', 'base-item-list' ) }
+					initialOpen
+				>
+					<ShortcodeReference />
+				</PanelBody>
+
+				<PanelBody
+					title={ __( '設定ヘルプ', 'base-item-list' ) }
+					initialOpen={ false }
+				>
+					<HelpPanel
+						homeUrl={ config.homeUrl }
+						screenshotUrl={ config.screenshotUrl }
+					/>
+				</PanelBody>
+
+				<PanelBody
+					title={ __( 'エラーログ', 'base-item-list' ) }
+					initialOpen={ false }
+				>
+					<ErrorLogPanel
+						lastError={ authStatus.last_error }
+						lastErrorTime={ authStatus.last_error_time }
+					/>
+				</PanelBody>
+			</Panel>
 		</div>
 	);
 }

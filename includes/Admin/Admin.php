@@ -57,24 +57,43 @@ class Admin {
 	}
 
 	public function admin_menu() {
-		add_submenu_page(
-			'base_item_list',
+		// Hidden submenu (parent_slug = '') keeps the URL ?page=base_item_list_setting
+		// reachable for OAuth callback compatibility — existing BASE Developers
+		// registrations pointed at this URL — while not appearing as a duplicate
+		// sidebar entry alongside the auto-created "BASE Item List" submenu.
+		$hookname = add_submenu_page(
+			'',
 			'API設定',
 			'API設定',
 			'manage_options',
 			'base_item_list_setting',
 			array( View::class, 'option_page' )
 		);
-	}
 
-	const ADMIN_HOOKS = array(
-		'toplevel_page_base_item_list',
-		'base_item_list_page_base_item_list_setting',
-	);
+		// Hidden pages have no entry in $submenu[<parent>], so WP can't resolve a
+		// title via get_admin_page_title() and admin-header.php ends up calling
+		// strip_tags( null ) — a PHP 8.1+ deprecation that breaks the subsequent
+		// setcookie() calls (headers already sent). Seed $title here, which fires
+		// just before admin-header.php is included.
+		if ( $hookname ) {
+			add_action(
+				"load-{$hookname}",
+				static function () {
+					// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally seeding WP's $title global for the hidden admin page.
+					$GLOBALS['title'] = 'BASE Item List 設定';
+				}
+			);
+		}
+	}
 
 	public function admin_enqueue_scripts( $hook_suffix ) {
 
-		if ( ! in_array( $hook_suffix, self::ADMIN_HOOKS, true ) ) {
+		// Match either of the plugin's admin pages by looking for the slug in
+		// the hook suffix. WP composes hooks as `toplevel_page_<slug>` for the
+		// top-level page and `<sanitized-parent>_page_<slug>` (or
+		// `admin_page_<slug>` for hidden pages) for submenus, so a substring
+		// match avoids depending on those naming details.
+		if ( false === strpos( (string) $hook_suffix, 'base_item_list' ) ) {
 			return;
 		}
 

@@ -83,11 +83,15 @@ test( 'fetches settings and auth-status on mount', async () => {
 	} );
 } );
 
-test( 'shows authorize panel when required credentials are saved', async () => {
+test( 'shows authorize panel header when required credentials are saved', async () => {
 	render( <App config={ baseConfig } /> );
 
+	// PanelBody renders its title as a button (the accordion toggle), so the
+	// "API 認証" panel surface is queryable by role even when collapsed.
 	await waitFor( () => {
-		expect( screen.getByText( /API 認証/ ) ).toBeInTheDocument();
+		expect(
+			screen.getByRole( 'button', { name: /API 認証/ } )
+		).toBeInTheDocument();
 	} );
 } );
 
@@ -101,12 +105,16 @@ test( 'hides authorize panel when shop_url is missing', async () => {
 
 	render( <App config={ baseConfig } /> );
 
+	// The settings PanelBody header is always present; we just verify the page
+	// has rendered, then assert the auth panel header is absent.
 	await waitFor( () => {
 		expect(
-			screen.getByRole( 'button', { name: /設定を保存/ } )
+			screen.getByRole( 'button', { name: /^設定$/ } )
 		).toBeInTheDocument();
 	} );
-	expect( screen.queryByText( /API 認証/ ) ).not.toBeInTheDocument();
+	expect(
+		screen.queryByRole( 'button', { name: /API 認証/ } )
+	).not.toBeInTheDocument();
 } );
 
 test( 'shows a success notice when arriving with justAuthorized', async () => {
