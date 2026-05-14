@@ -53,5 +53,10 @@
 		</properties>
 	</rule>
 
+	<!-- REST controller methods must accept WP_REST_Request even when the body is unused. -->
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter.Found">
+		<exclude-pattern>includes/Rest/*</exclude-pattern>
+	</rule>
+
 	<rule ref="PHPCompatibilityWP"/>
 </ruleset>

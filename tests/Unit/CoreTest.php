@@ -37,6 +37,7 @@ class CoreTest extends TestCase {
 		Actions\expectAdded( 'admin_init' )->twice();
 		Actions\expectAdded( 'admin_menu' )->once();
 		Actions\expectAdded( 'wp_enqueue_scripts' )->once();
+		Actions\expectAdded( 'rest_api_init' )->once();
 
 		Functions\expect( 'add_shortcode' )
 			->once()

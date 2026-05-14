@@ -32,5 +32,6 @@ require_once __DIR__ . '/includes/Core.php';
 require_once __DIR__ . '/includes/Admin/Admin.php';
 require_once __DIR__ . '/includes/Admin/View.php';
 require_once __DIR__ . '/includes/Auth.php';
+require_once __DIR__ . '/includes/Rest/SettingsController.php';
 $bilo = new \mt8\BaseItemList\Core();
 $bilo->register_hooks();

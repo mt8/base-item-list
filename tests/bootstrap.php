@@ -19,4 +19,5 @@ if ( ! defined( 'WPINC' ) ) {
 
 require_once dirname( __DIR__ ) . '/vendor/autoload.php';
 
+require_once __DIR__ . '/Stubs/rest-stubs.php';
 require_once __DIR__ . '/TestCase.php';

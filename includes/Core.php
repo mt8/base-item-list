@@ -5,6 +5,7 @@ namespace mt8\BaseItemList;
 use Exception;
 use mt8\BaseItemList\Admin\Admin;
 use mt8\BaseItemList\Admin\View;
+use mt8\BaseItemList\Rest\SettingsController;
 
 class Core {
 
@@ -20,6 +21,13 @@ class Core {
 		add_action( 'admin_init', array( View::class, 'register_setting_fields' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+
+		add_action(
+			'rest_api_init',
+			static function () {
+				( new SettingsController() )->register_routes();
+			}
+		);
 
 		add_shortcode( 'BASE_ITEM', array( $this, 'add_shortcode' ) );
 	}
