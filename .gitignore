@@ -2,9 +2,12 @@ vendor/
 .DS_Store
 phpcs.xml
 phpunit.xml
+.phpunit.cache/
+.phpcs-cache
 Thumbs.db
 wp-cli.local.yml
 node_modules/
 *.sql
 *.tar.gz
 *.zip
+CLAUDE.md

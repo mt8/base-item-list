@@ -1,9 +1,11 @@
 <?php
-	if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 	global $base_items;
 	/*
 	Array
-	(	
+	(
 		[n] => stdClass Object
 		(
 			[item_id] => int
@@ -16,7 +18,7 @@
 			[stock] => int
 			[visible] => int
 			[list_order] => int
-			[identifier] => 
+			[identifier] =>
 			[modified] => 1601540864
 
 			[img(1-5)_origin] => string
@@ -63,7 +65,7 @@
 			<li class="base_item">
 				<dt><span class="base_item_title"><?php echo esc_html( $item->title ); ?></span></dt>
 				<dd>
-					<a href="<?php echo esc_url( $item->shop_url) ?>/items/<?php echo $item->item_id; ?>" target="_blank">
+					<a href="<?php echo esc_url( $item->shop_url ); ?>/items/<?php echo (int) $item->item_id; ?>" target="_blank">
 						<img src="<?php echo esc_url( $item->img1_300 ); ?>" alt="<?php echo esc_attr( $item->title ); ?>">
 					</a>
 				</dd>
@@ -72,4 +74,5 @@
 		</ul>
 	</div><!--/.base_items-->
 
-<?php endif;
+	<?php
+endif;

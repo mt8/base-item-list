@@ -7,22 +7,21 @@ use mt8\BaseItemList\Admin\Admin;
 use mt8\BaseItemList\Admin\View;
 
 class Core {
-		
-	const BASE_API_ITEMS_URL = 'https://api.thebase.in/1/items/search';
+
+	const BASE_API_ITEMS_URL    = 'https://api.thebase.in/1/items/search';
 	const LAST_ERROR_OPTION_KEY = 'base-item-list-last-error';
 
 	public function register_hooks() {
 
-		$admin = New Admin();
+		$admin = new Admin();
 
 		add_action( 'admin_init', array( $admin, 'admin_init' ) );
 		add_action( 'admin_menu', array( $admin, 'admin_menu' ) );
 		add_action( 'admin_init', array( View::class, 'register_setting_fields' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
-		
-		add_shortcode('BASE_ITEM', array( $this, 'add_shortcode' ) );
 
+		add_shortcode( 'BASE_ITEM', array( $this, 'add_shortcode' ) );
 	}
 
 	public function add_shortcode( $atts ) {
@@ -35,8 +34,7 @@ class Core {
 				'categories',
 			);
 
-			//setup parameter
-			extract( shortcode_atts( 
+			$params = shortcode_atts(
 				array(
 					'q'      => '*',
 					'fields' => implode( ',', $fields_default ),
@@ -45,19 +43,28 @@ class Core {
 					'limit'  => 10,
 					'cache'  => 60,
 					'name'   => 'cache',
-				), $atts ) );
+				),
+				$atts
+			);
+			$q      = $params['q'];
+			$fields = $params['fields'];
+			$order  = $params['order'];
+			$sort   = $params['sort'];
+			$limit  = $params['limit'];
+			$cache  = $params['cache'];
+			$name   = $params['name'];
 
-			// check parameter
+			// Validate parameters; fall back to defaults on bad input.
 			$fields_check = explode( ',', $fields );
 			foreach ( $fields_check as $field ) {
-				if ( ! in_array( $field, $fields_default ) ) {
+				if ( ! in_array( $field, $fields_default, true ) ) {
 					$fields = implode( ',', $fields_default );
 				}
 			}
-			if ( ! in_array( $order, array( 'list_order', 'modified' ) ) ) {
+			if ( ! in_array( $order, array( 'list_order', 'modified' ), true ) ) {
 				$order = '';
 			}
-			if ( ! in_array( $sort, array( 'asc', 'desc' ) ) ) {
+			if ( ! in_array( $sort, array( 'asc', 'desc' ), true ) ) {
 				$sort = 'desc';
 			}
 			if ( 0 >= intval( $limit ) || $limit > 100 ) {
@@ -67,7 +74,7 @@ class Core {
 				$cache = 60;
 			}
 
-			//call API if no cache
+			// call API if no cache
 			$json = get_transient( 'base-item-list-' . md5( $name ) );
 			if ( ! $json ) {
 				$json = $this->request_api( compact( 'q', 'fields', 'order', 'sort', 'limit' ) );
@@ -79,7 +86,7 @@ class Core {
 				}
 			}
 
-			//print items
+			// print items
 			return $this->item_list( $json->items );
 
 		} catch ( Exception $ex ) {
@@ -88,9 +95,8 @@ class Core {
 			update_option( self::LAST_ERROR_OPTION_KEY, 'エラー:' . $ex->getMessage(), false );
 			return '';
 		}
-
 	}
-	
+
 	public function request_api( $args ) {
 
 		$auth = new Auth();
@@ -104,16 +110,16 @@ class Core {
 		}
 
 		$args = array(
-			'headers'     => array(
+			'headers' => array(
 				'Authorization' => 'Bearer ' . $token,
 			),
-			'body' => array(
+			'body'    => array(
 				'q'      => $args['q'],
 				'fields' => $args['fields'],
 				'order'  => $args['order'],
 				'sort'   => $args['sort'],
 				'limit'  => $args['limit'],
-			)
+			),
 		);
 
 		$response = wp_remote_get( self::BASE_API_ITEMS_URL, $args );
@@ -124,44 +130,44 @@ class Core {
 			error_log( 'Response Code:    ' . wp_remote_retrieve_response_code( $response ) );
 			error_log( 'Response Message: ' . wp_remote_retrieve_response_message( $response ) );
 			update_option(
-				self::LAST_ERROR_OPTION_KEY, var_export( $args, true ) . PHP_EOL .
-				'(' . wp_remote_retrieve_response_code( $response ) . ')' . 
-				wp_remote_retrieve_response_message( $response ) , false );
+				self::LAST_ERROR_OPTION_KEY,
+				var_export( $args, true ) . PHP_EOL .
+				'(' . wp_remote_retrieve_response_code( $response ) . ')' .
+				wp_remote_retrieve_response_message( $response ),
+				false
+			);
 			return null;
 		}
 
 		return json_decode( wp_remote_retrieve_body( $response ) );
 	}
-	
+
 	public function item_list( $items ) {
-		
-		//set globals
-		$GLOBALS[ 'base_items' ] = $items;
+
+		// set globals
+		$GLOBALS['base_items'] = $items;
 
 		foreach ( $items as $index => $item ) {
-			$items[$index]->shop_url = untrailingslashit( Admin::option('shop_url') );
+			$items[ $index ]->shop_url = untrailingslashit( Admin::option( 'shop_url' ) );
 		}
-		
-		 ob_start();
+
+		ob_start();
 		if ( is_file( get_stylesheet_directory() . '/base_items.php' ) ) {
-			//load base_items.php in your theme.
+			// load base_items.php in your theme.
 			get_template_part( 'base_items' );
 		} else {
-			//load base_items.php in this plugin.
-			include dirname(__DIR__) . '/template/base_items.php';
+			// load base_items.php in this plugin.
+			include dirname( __DIR__ ) . '/template/base_items.php';
 		}
 		return ob_get_clean();
-
 	}
 
 	public function wp_enqueue_scripts() {
-		$admin = New Admin();
-		if ( true || '1' == $admin->option( 'use_default_css' ) ) {
-			wp_enqueue_style(
-				'base-item-list',
-				plugins_url( '/assets/css/base-item-list.css', dirname(__FILE__) )
-			);
-		}
+		// The default stylesheet is always enqueued; the `use_default_css` option is currently
+		// a no-op kept for backwards compatibility with stored settings.
+		wp_enqueue_style(
+			'base-item-list',
+			plugins_url( '/assets/css/base-item-list.css', __DIR__ )
+		);
 	}
-
 }

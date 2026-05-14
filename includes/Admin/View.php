@@ -11,51 +11,52 @@ class View {
 
 		$key     = Admin::OPTIONS_KEY;
 		$group   = $key . '_group';
-		$section = $key . '_section'; 
-		register_setting( $group, $key, array( View::class, 'filter_setting' ) );
+		$section = $key . '_section';
+		register_setting( $group, $key, array( self::class, 'filter_setting' ) );
 
 		add_settings_section(
 			$section,
 			'設定',
-			array( View::class, 'settings_section' ), $key
+			array( self::class, 'settings_section' ),
+			$key
 		);
 
 		add_settings_field(
-			'client_id'
-			,'client_id',
-			array( View::class, 'field_client_id' ), 
+			'client_id',
+			'client_id',
+			array( self::class, 'field_client_id' ),
 			$key,
 			$section
 		);
 
 		add_settings_field(
-			'client_secret'
-			,'client_secret',
-			array( View::class, 'field_client_secret' ), 
+			'client_secret',
+			'client_secret',
+			array( self::class, 'field_client_secret' ),
 			$key,
 			$section
 		);
 
 		add_settings_field(
-			'callback_url'
-			,'コールバックURL',
-			array( View::class, 'field_callback_url' ), 
+			'callback_url',
+			'コールバックURL',
+			array( self::class, 'field_callback_url' ),
 			$key,
 			$section
 		);
 
 		add_settings_field(
-			'shop_url'
-			,'ショップURL',
-			array( View::class, 'field_shop_url' ), 
+			'shop_url',
+			'ショップURL',
+			array( self::class, 'field_shop_url' ),
 			$key,
 			$section
 		);
 
 		add_settings_field(
-			'use_default_css'
-			,'プラグインCSSを使用する',
-			array( View::class, 'field_use_default_css' ), 
+			'use_default_css',
+			'プラグインCSSを使用する',
+			array( self::class, 'field_use_default_css' ),
 			$key,
 			$section
 		);
@@ -68,12 +69,12 @@ class View {
 			}
 		}
 		return $input;
-	}	
+	}
 
 	public static function option_page() {
 		$admin = new Admin();
-		$auth = new Auth();
-	?>
+		$auth  = new Auth();
+		?>
 	<div class="wrap">
 
 		<h2>BASE商品リスト API設定</h2>
@@ -102,8 +103,8 @@ class View {
 				</td>
 				<td width="45%">
 					<p>※クリックで拡大します</p>
-					<a target="_blank" href="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( __FILE__ ) ) ) ?>">
-					<img width="70%" src="<?php echo plugins_url( '/assets/images/api-apply.png', dirname( dirname( __FILE__ ) ) ) ?>">
+					<a target="_blank" href="<?php echo esc_url( plugins_url( '/assets/images/api-apply.png', dirname( __DIR__ ) ) ); ?>">
+					<img width="70%" src="<?php echo esc_url( plugins_url( '/assets/images/api-apply.png', dirname( __DIR__ ) ) ); ?>">
 					</a>
 				</td>
 			</tr>
@@ -117,10 +118,11 @@ class View {
 		</form>
 		<hr />
 
-		<?php if ( $admin->saved_options() ) :
+		<?php
+		if ( $admin->saved_options() ) :
 			$callbak_url = add_query_arg( array( 'force' => '1' ), Admin::option( 'callback_url' ) );
-		?>
-		<form method="POST" action="<?php echo esc_url( $callbak_url ) ?>" >
+			?>
+		<form method="POST" action="<?php echo esc_url( $callbak_url ); ?>" >
 			<?php wp_nonce_field( 'base_item_list_auth', 'base_item_list_auth' ); ?>			
 			<?php if ( $auth->authorized() ) : ?>
 				<h2>API認証(認証済)</h2>
@@ -206,46 +208,54 @@ class View {
 
 		<?php $last_error = get_option( Core::LAST_ERROR_OPTION_KEY ); if ( ! empty( $last_error ) ) : ?>
 		<h2>エラーログ</h2>
-		<code><?php echo esc_html( $last_error ) ?></code>
-		<?php endif ; ?>
+		<code><?php echo esc_html( $last_error ); ?></code>
+		<?php endif; ?>
 	</div>		
-	<?php
+		<?php
 	}
 
-	public static function settings_section() { ?>
+	public static function settings_section() {
+
+		?>
 		<?php
-		if ( 'true' === filter_input( INPUT_GET, 'settings-updated' ) ) { ?>
+		if ( 'true' === filter_input( INPUT_GET, 'settings-updated' ) ) {
+			?>
 		<div class="updated"><p>設定を保存しました。</p></div>
-		<?php
+			<?php
 		}
-		if ( 'authorized' === filter_input( INPUT_GET, 'status' ) ) { ?>
+		if ( 'authorized' === filter_input( INPUT_GET, 'status' ) ) {
+			?>
 		<div class="updated"><p>API認証が完了しました。</p></div>
-		<?php
+			<?php
 		}
 	}
 
-	public static function field_client_id() { ?>
+	public static function field_client_id() {
+
+		?>
 		<input 
 			type="text" 
 			id="client_id" 
-			name="<?php echo Admin::OPTIONS_KEY ?>[client_id]" 
+			name="<?php echo esc_attr( Admin::OPTIONS_KEY ); ?>[client_id]" 
 			class="regular-text" 
-			value="<?php echo esc_attr( Admin::option( 'client_id' ) ) ?>" 
+			value="<?php echo esc_attr( Admin::option( 'client_id' ) ); ?>" 
 		/>
-	<?php
+		<?php
 	}
-	
-	public static function field_client_secret() { ?>
+
+	public static function field_client_secret() {
+
+		?>
 		<input 
 			type="text" 
 			id="client_secret" 
-			name="<?php echo Admin::OPTIONS_KEY ?>[client_secret]" 
+			name="<?php echo esc_attr( Admin::OPTIONS_KEY ); ?>[client_secret]" 
 			class="regular-text" 
-			value="<?php echo esc_attr( Admin::option( 'client_secret' ) ) ?>" 
+			value="<?php echo esc_attr( Admin::option( 'client_secret' ) ); ?>" 
 		/>
-	<?php
+		<?php
 	}
-	
+
 	public static function field_callback_url() {
 
 		$auth_url = add_query_arg(
@@ -262,7 +272,7 @@ class View {
 			type="hidden" 
 			readonly
 			id="callback_url"
-			name="<?php echo Admin::OPTIONS_KEY ?>[callback_url]" 
+			name="<?php echo esc_attr( Admin::OPTIONS_KEY ); ?>[callback_url]" 
 			class="regular-text" 
 			value="<?php echo esc_url( $auth_url ); ?>" 
 		/>
@@ -273,29 +283,32 @@ class View {
 				return false;
 			}
 		</script>
-	<?php
+		<?php
 	}
-	
-	public static function field_shop_url() { ?>
+
+	public static function field_shop_url() {
+
+		?>
 		<input 
 			type="text" 
 			id="shop_url" 
-			name="<?php echo Admin::OPTIONS_KEY ?>[shop_url]" 
+			name="<?php echo esc_attr( Admin::OPTIONS_KEY ); ?>[shop_url]" 
 			class="regular-text" 
-			value="<?php echo esc_attr( Admin::option( 'shop_url' ) ) ?>" 
+			value="<?php echo esc_attr( Admin::option( 'shop_url' ) ); ?>" 
 		/>
-	<?php
+		<?php
 	}
 
-	public static function field_use_default_css() { ?>
+	public static function field_use_default_css() {
+
+		?>
 		<input 
 			type="checkbox" 
 			id="use_default_css" 
-			name="<?php echo Admin::OPTIONS_KEY ?>[use_default_css]" 
+			name="<?php echo esc_attr( Admin::OPTIONS_KEY ); ?>[use_default_css]" 
 			value="1" 
 			<?php checked( Admin::option( 'use_default_css' ), 1 ); ?>
 		/>
-	<?php
+		<?php
 	}
-
 }

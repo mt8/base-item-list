@@ -9,19 +9,24 @@
 	Domain Path: /languages
 	Text Domain: base-item-list
 */
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-add_action( 'admin_menu', function() {
-	$admin_view = new \mt8\BaseItemList\Admin\View();
-	add_menu_page(
-		'BASE Item List',
-		'BASE Item List' ,
-		'manage_options',
-		'base_item_list',
-		array( $admin_view, 'option_page' ),
-		'dashicons-cart'
-	);
-});
+add_action(
+	'admin_menu',
+	function () {
+		$admin_view = new \mt8\BaseItemList\Admin\View();
+		add_menu_page(
+			'BASE Item List',
+			'BASE Item List',
+			'manage_options',
+			'base_item_list',
+			array( $admin_view, 'option_page' ),
+			'dashicons-cart'
+		);
+	}
+);
 
 require_once __DIR__ . '/includes/Core.php';
 require_once __DIR__ . '/includes/Admin/Admin.php';
