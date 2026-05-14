@@ -4,12 +4,18 @@ namespace mt8\BaseItemList;
 
 use Exception;
 use mt8\BaseItemList\Admin\Admin;
-use mt8\BaseItemList\Admin\View;
+use mt8\BaseItemList\Rest\SettingsController;
 
 class Core {
 
-	const BASE_API_ITEMS_URL    = 'https://api.thebase.in/1/items/search';
-	const LAST_ERROR_OPTION_KEY = 'base-item-list-last-error';
+	const BASE_API_ITEMS_URL         = 'https://api.thebase.in/1/items/search';
+	const LAST_ERROR_OPTION_KEY      = 'base-item-list-last-error';
+	const LAST_ERROR_TIME_OPTION_KEY = 'base-item-list-last-error-time';
+
+	public static function store_last_error( string $message ): void {
+		update_option( self::LAST_ERROR_OPTION_KEY, $message, false );
+		update_option( self::LAST_ERROR_TIME_OPTION_KEY, time(), false );
+	}
 
 	public function register_hooks() {
 
@@ -17,9 +23,16 @@ class Core {
 
 		add_action( 'admin_init', array( $admin, 'admin_init' ) );
 		add_action( 'admin_menu', array( $admin, 'admin_menu' ) );
-		add_action( 'admin_init', array( View::class, 'register_setting_fields' ) );
+		add_action( 'admin_enqueue_scripts', array( $admin, 'admin_enqueue_scripts' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+
+		add_action(
+			'rest_api_init',
+			static function () {
+				( new SettingsController() )->register_routes();
+			}
+		);
 
 		add_shortcode( 'BASE_ITEM', array( $this, 'add_shortcode' ) );
 	}
@@ -92,7 +105,7 @@ class Core {
 		} catch ( Exception $ex ) {
 			error_log( '==========BASE Item List API Error==========' );
 			error_log( 'エラー:' . $ex->getMessage() );
-			update_option( self::LAST_ERROR_OPTION_KEY, 'エラー:' . $ex->getMessage(), false );
+			self::store_last_error( 'エラー:' . $ex->getMessage() );
 			return '';
 		}
 	}
@@ -105,7 +118,7 @@ class Core {
 		if ( empty( $token ) ) {
 			error_log( '==========BASE Item List API Error==========' );
 			error_log( 'アクセストークンが取得できません。認証してください。' );
-			update_option( self::LAST_ERROR_OPTION_KEY, 'アクセストークンが取得できません。認証してください。', false );
+			self::store_last_error( 'アクセストークンが取得できません。認証してください。' );
 			return null;
 		}
 
@@ -129,12 +142,10 @@ class Core {
 			error_log( 'Request Params:   ' . var_export( $args, true ) );
 			error_log( 'Response Code:    ' . wp_remote_retrieve_response_code( $response ) );
 			error_log( 'Response Message: ' . wp_remote_retrieve_response_message( $response ) );
-			update_option(
-				self::LAST_ERROR_OPTION_KEY,
+			self::store_last_error(
 				var_export( $args, true ) . PHP_EOL .
 				'(' . wp_remote_retrieve_response_code( $response ) . ')' .
-				wp_remote_retrieve_response_message( $response ),
-				false
+				wp_remote_retrieve_response_message( $response )
 			);
 			return null;
 		}

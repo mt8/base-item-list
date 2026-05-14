@@ -57,14 +57,86 @@ class Admin {
 	}
 
 	public function admin_menu() {
-		add_submenu_page(
-			'base_item_list',
+		// Hidden submenu (parent_slug = '') keeps the URL ?page=base_item_list_setting
+		// reachable for OAuth callback compatibility — existing BASE Developers
+		// registrations pointed at this URL — while not appearing as a duplicate
+		// sidebar entry alongside the auto-created "BASE Item List" submenu.
+		$hookname = add_submenu_page(
+			'',
 			'API設定',
 			'API設定',
 			'manage_options',
 			'base_item_list_setting',
 			array( View::class, 'option_page' )
 		);
+
+		// Hidden pages have no entry in $submenu[<parent>], so WP can't resolve a
+		// title via get_admin_page_title() and admin-header.php ends up calling
+		// strip_tags( null ) — a PHP 8.1+ deprecation that breaks the subsequent
+		// setcookie() calls (headers already sent). Seed $title here, which fires
+		// just before admin-header.php is included.
+		if ( $hookname ) {
+			add_action(
+				"load-{$hookname}",
+				static function () {
+					// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally seeding WP's $title global for the hidden admin page.
+					$GLOBALS['title'] = 'BASE Item List 設定';
+				}
+			);
+		}
+	}
+
+	public function admin_enqueue_scripts( $hook_suffix ) {
+
+		// Match either of the plugin's admin pages by looking for the slug in
+		// the hook suffix. WP composes hooks as `toplevel_page_<slug>` for the
+		// top-level page and `<sanitized-parent>_page_<slug>` (or
+		// `admin_page_<slug>` for hidden pages) for submenus, so a substring
+		// match avoids depending on those naming details.
+		if ( false === strpos( (string) $hook_suffix, 'base_item_list' ) ) {
+			return;
+		}
+
+		$plugin_dir = dirname( __DIR__, 2 );
+		$plugin_url = plugin_dir_url( $plugin_dir . '/plugin.php' );
+		$asset_file = $plugin_dir . '/build/admin/index.asset.php';
+
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+
+		$asset = include $asset_file;
+
+		wp_enqueue_script(
+			'base-item-list-admin',
+			$plugin_url . 'build/admin/index.js',
+			$asset['dependencies'],
+			$asset['version'],
+			true
+		);
+
+		wp_enqueue_style( 'wp-components' );
+
+		$callback_url = add_query_arg(
+			array(
+				'page' => 'base_item_list_setting',
+				'mode' => 'auth',
+			),
+			admin_url( '/admin.php' )
+		);
+
+		wp_localize_script(
+			'base-item-list-admin',
+			'basItemListAdmin',
+			array(
+				'callbackUrl'    => $callback_url,
+				'homeUrl'        => home_url( '/' ),
+				'screenshotUrl'  => $plugin_url . 'assets/images/api-apply.png',
+				'justAuthorized' => 'authorized' === filter_input( INPUT_GET, 'status' ),
+			)
+		);
+
+		wp_set_script_translations( 'base-item-list-admin', 'base-item-list' );
 	}
 
 	public static function option( $key ) {

@@ -7,6 +7,7 @@
 
 namespace mt8\BaseItemList\Tests\Unit;
 
+use Brain\Monkey\Actions;
 use Brain\Monkey\Functions;
 use mt8\BaseItemList\Admin\Admin;
 use mt8\BaseItemList\Tests\TestCase;
@@ -88,18 +89,35 @@ class AdminTest extends TestCase {
 		$this->assertTrue( true );
 	}
 
-	public function test_admin_menu_adds_submenu_page(): void {
+	public function test_admin_menu_registers_hidden_settings_page_and_seeds_title(): void {
+		// Empty parent_slug ('') marks the page as hidden — accessible by URL
+		// (?page=base_item_list_setting) for OAuth callback compatibility but
+		// not shown in the sidebar alongside the auto-created top-level entry.
 		Functions\expect( 'add_submenu_page' )
 			->once()
 			->with(
-				'base_item_list',
+				'',
 				'API設定',
 				'API設定',
 				'manage_options',
 				'base_item_list_setting',
 				\Mockery::type( 'array' )
-			);
+			)
+			->andReturn( 'admin_page_base_item_list_setting' );
+
+		// Title-seeding callback prevents the PHP 8.1+ strip_tags(null) deprecation
+		// in admin-header.php for the hidden page.
+		Actions\expectAdded( 'load-admin_page_base_item_list_setting' )->once();
 
 		( new Admin() )->admin_menu();
+	}
+
+	public function test_admin_enqueue_scripts_skips_for_unrelated_admin_pages(): void {
+		Functions\expect( 'wp_enqueue_script' )->never();
+		Functions\expect( 'wp_enqueue_style' )->never();
+		Functions\expect( 'wp_localize_script' )->never();
+
+		( new Admin() )->admin_enqueue_scripts( 'edit.php' );
+		$this->assertTrue( true );
 	}
 }

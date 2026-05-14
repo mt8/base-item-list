@@ -3,8 +3,8 @@ Contributors: mt8.biz, shimakyohsuke, masakawai
 Donate link: https://mt8.biz
 Tags: BASE,ec,shortcode
 Requires at least: 5.9
-Tested up to: 6.2
-Stable tag: 2.0.3
+Tested up to: 6.9.4
+Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,3 +109,11 @@ Not yet.
 
 = 2.0.3 =
 * ショートコードパラメータにfields追加：https://docs.thebase.in/docs/api/items/search Props to masakawai
+
+= 3.0.0 =
+* 管理画面を @wordpress/components ベースの React UI にリプレース
+* 設定保存・認証開始を REST API 経由に変更（base-item-list/v1）
+* PHPUnit / PHPCS / Jest による単体テストと CI を整備
+* 重複していたサブメニューを 1 つに集約
+* エラーログに発生日時を表示
+* Tested up to 6.9.4

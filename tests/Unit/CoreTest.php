@@ -34,9 +34,11 @@ class CoreTest extends TestCase {
 	}
 
 	public function test_register_hooks_registers_expected_actions_and_shortcode(): void {
-		Actions\expectAdded( 'admin_init' )->twice();
+		Actions\expectAdded( 'admin_init' )->once();
 		Actions\expectAdded( 'admin_menu' )->once();
+		Actions\expectAdded( 'admin_enqueue_scripts' )->once();
 		Actions\expectAdded( 'wp_enqueue_scripts' )->once();
+		Actions\expectAdded( 'rest_api_init' )->once();
 
 		Functions\expect( 'add_shortcode' )
 			->once()
